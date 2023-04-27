@@ -1,0 +1,83 @@
+新 function 新增流程
+0. 確認欲新增之功能
+1. notepad.txt 新增說明文件
+2. menu新增、決定內部呼號
+3. 頂端新增 def function():
+4. callback_menu_filter 設定scale上下限 和 scale's title
+5. image_program() 設定資料驗證 並 連結 function()
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+執行流程
+0. 拉動 scale
+1. callback_scale()
+    1.1 取得scale數值
+    1.2 數字取整
+    1.3 回朔scale數值
+    1.4 數值存入llist
+    1.5 llist傳入image_program()做正式處理 取得result
+    1.6 回傳result以利存檔作業
+2. image_program()
+    2.1 查看flag_program_type以決定把資料交給誰處理
+    2.2 llist做資料驗證
+    2.3 llist導入各function()做正式處理 取得result
+        2.3.1 處理影像
+        2.3.2 回傳結果
+    2.4 上傳result至update_image()進行影像更新
+        2.4.1 影像格式傳換
+        2.4.2 影像正式更新
+        2.4.3 回傳原始影像以利存檔作業
+    2.5 回傳result以利存檔作業
+
+切換流程
+0. 切換濾鏡
+1. callback_menu_filter()
+    1.1 用lambda把內部呼號傳出去(在menu處)
+    1.2 更新flag_program_type(重要流程控制變數)
+    1.3 更新label0_program_type_value((0,1)那一個顯示現在功能/處理模式的label)
+    1.4 查看flag_program_type以決定把資料交給誰處理
+    1.5 調整三個scale的上下限或停用
+        1.5.a location()
+            1.5.a.1 把圖片的長寬作為scale的上下限
+            1.5.a.2 適用於做座標
+            1.5.a.3 參數axis: 0=Y軸|1=X軸
+        1.5.b level()
+            1.5.b.1 把自訂的數值作為scale的上下限
+            1.5.b.2 適用於通常情況
+            1.5.b.3 參數start、to為上下限
+        1.5.c disable()
+            1.5.c.1 停用該scale
+            1.5.c.2 選擇其他項會自動把scale再啟用
+    1.6 調整三個scale的標題label
+        1.6.1 資料傳入update_scale_label()以做處理
+        1.6.2 驗證llist型別 否則建立一個新list
+        1.6.3 檢查llist長度 否則自動補足到3個
+        1.6.4 更新scale title
+    1.7 呼叫callback_scale(None)進行畫面更新(接上方執行流程)
+
+建置流程
+0. 讀取資料
+    0.1 import
+    0.2 全域變數
+        0.2.1 flag_program_type 重要流程控制，指示應進行何種影像處理作業
+    0.3 讀取影像處理副程式
+        0.3.1 function()s 各濾鏡真正做處理運算的地方
+        0.3.2 image_program() 參數驗證、分發和把結果更新上去
+        0.3.3 callback_scale() 讀取、取整並回朔scale的數值，統整數值後送去處理
+    0.4 讀取class
+        0.4.1 ImageProgram
+            0.4.1.1 當初這樣做好像只是把這作為超級全域變數ㄟ
+        0.4.2 IntegerInputDialog
+            0.4.2.1 建立一個新視窗以讓使用者用鍵盤輸入多個數值，詳情自行參見註解
+    0.5 讀取介面副程式
+1. 初始化
+    1.1 初始化tkinter
+    1.2 宣告並初始化class ImageProgram as image(核心中的核心，貫穿整個程式)
+2. 建立畫面
+    2.1 建立並部署menu
+    2.2 建立並部署row1的資料列
+    2.3 建立並部署三個scale
+    2.4 建立並部署label_image以顯示圖片
+3. 正式部署
+    3.1 設定個元件的padding
+    3.2 mainloop

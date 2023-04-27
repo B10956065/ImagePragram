@@ -1,0 +1,45 @@
+圖像處理技術指的是對數字圖像進行分析、處理、改善的技術，它通過對圖像的亮度、對比度、色調、飽和度、分辨率、去噪等進行操作，從而達到改善圖像品質、提高圖像信息的目的。
+
+以下是一些常見的圖像處理技術：
+
+灰度轉換：將彩色圖像轉換為灰度圖像，便於進行後續的圖像處理。
+
+均衡化：通過調整圖像像素的分佈，使圖像的亮度分佈更加均勻，從而增強圖像的對比度和細節。
+
+去噪：通過一些特定的方法，例如中值濾波、高斯濾波等，去除圖像中的雜訊。
+
+邊緣檢測：檢測圖像中的邊緣，通過高斯濾波、Canny 演算法等方法實現。
+
+形態學處理：對圖像進行膨脹、腐蝕、開運算、閉運算等操作，從而達到去除小物體、填補小孔洞、分離連通區域等目的。
+
+分割：通過分析圖像中的像素點，將圖像分為多個區域或物體，例如閾值分割、區域生長、分水嶺算法等。
+
+特徵提取：通過檢測圖像中的特徵，例如邊緣、角點、紋理等，從而實現圖像識別、目標檢測等目的。
+
+圖像重建：通過使用一些演算法，例如插值法、超分辨率演算法等，將圖像進行放大或恢復。
+
+這些技術是圖像處理中的基礎技術，您可以根據自己的需求和應用進一步研究和應用。
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-D-i-v-i-d-i-n-g-L-i-n-e-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+Image processing techniques refer to the techniques used to analyze, process, and improve digital images. These techniques involve manipulating image properties such as brightness, contrast, hue, saturation, resolution, and noise reduction to enhance image quality and increase image information.
+
+Some common image processing techniques include:
+
+Grayscale conversion: converting a color image to a grayscale image to facilitate further image processing.
+
+Histogram equalization: adjusting the distribution of pixel values to create a more uniform distribution of image brightness and contrast, thereby enhancing image details.
+
+Noise reduction: using specific methods such as median filtering or Gaussian filtering to remove noise from an image.
+
+Edge detection: detecting edges in an image using methods such as Gaussian filtering or the Canny algorithm.
+
+Morphological processing: performing operations such as dilation, erosion, opening, and closing on an image to remove small objects, fill small holes, and separate connected regions.
+
+Segmentation: analyzing the pixels in an image to divide it into multiple regions or objects using methods such as thresholding, region growing, and watershed algorithm.
+
+Feature extraction: detecting specific features in an image, such as edges, corners, or textures, to achieve image recognition or object detection.
+
+Image reconstruction: using algorithms such as interpolation or super-resolution to upscale or restore an image.
+
+These techniques are the fundamental techniques used in image processing, and can be further researched and applied based on your specific needs and applications.

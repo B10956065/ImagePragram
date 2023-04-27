@@ -1,0 +1,102 @@
+平均模糊
+cv2.blur(image, (height,width))
+※llist[0=height, 1=width]
+
+高斯模糊
+cv2.GaussianBlur(image, (kSize_height, kSize_width), sigmaX, sigmaY)
+kSize % 2 == 1 and > 0
+if sigmaY == 0: sigmaY = sigmaX
+※llist[0=kSize_height, 1=kSize_width, 2=sigmaX]
+
+中值模糊
+cv2.medianBlur(image, kSize)
+kSize > 0
+※llist[0=kSize]
+
+雙邊模糊
+cv2.bilateralFilter(image, d=5, sigmaColor, sigmaSpace)
+d=5: neighbor pixel radius, will be lag if number too large
+sigmaColor 相鄰像素的顏色混合，數值越大，會混合更多區域的顏色，並產生更大區塊的同一種顏色
+sigmaSpace 會影響像素的區域，數值越大，影響的範圍就越大，影響的像素就越多
+讓影像模糊化的同時，也能夠保留影像內容的邊緣
+※llist[0=sigmaColor, 1=sigmaSpace]
+
+拉普拉斯運算子
+cv2.Laplacian(image, depth, kSize, scale)
+image: src_image
+depth: image's depth, "-1" means image's original depth
+kSize: pass, positive odd number(kSize > 0 and kSize % 2 == 1)
+scale: pass, positive odd number
+
+索伯運算子  # TODO: 需要再調教，現行結果不盡理想
+cv2.Sobel(image, depth, dx, dy, kSize, scale
+depth: 影像深度，設定 -1 表示使用圖片原本影像深度 = -1
+dx: 針對 x 軸抓取邊緣[[0,0], [0,1], [1,0], [1,1]]
+dy: 針對 y 軸抓取邊緣
+kSize: 運算區域大小，預設 1 ( 必須是正奇數 )
+scale: 縮放比例常數，預設 1 ( 必須是正奇數 )
+
+康尼運算子
+cv2.Canny(image, threshold1, threshold2, apertureSize)
+threshold1 門檻值，範圍 0～255
+threshold2 門檻值，範圍 0～255
+# apertureSize 計算梯度的 kernel size，預設 3
+
+自適應二值化
+cv2.adaptiveThreshold(img, maxValue, adaptiveMethod, thresholdType, blockSize, C)
+img: 來源影像
+maxValue: 最大灰度，通常設定 255
+adaptiveMethod: 自適應二值化計算方法
+    cv2.ADAPTIVE_THRESH_MEAN_C => 區域平均值。
+    cv2.ADAPTIVE_THRESH_GAUSSIAN_C => 整體高斯平均值。
+thresholdType: 二值化轉換方式
+blockSize: 轉換區域大小，通常設定 11，正奇數
+C: 偏移量，通常設定 2
+
+膨脹 Dilation
+cv2.dilate(image, kernel, iterations)
+kernel = cv2.getStructuringElement(shape, (kSize_x, kSize_y))
+shape = cv2.MORPH_RECT(矩形) | cv2.MORPH_CROSS(十字交叉) | cv2.MORPH_ELLIPSE(橢圓形)
+
+腐蝕 Erosion
+cv2.erode(image, kernel, iterations)
+kernel = np.ones((5,5), np.uint8)
+
+形態學處理
+cv2.morphologyEx(src, op, kernel[,det, anchor, iterations, borderType, borderValue)
+src: image
+op: 要執行的形態學操作
+    MORPH_DILATE – 膨脹
+    MORPH_ERODE – 腐蝕
+    MORPH_OPEN – 開運算 (Opening operation): 先腐蝕，後膨脹
+    MORPH_CLOSE – 閉運算 (Closing operation): 先膨脹，後腐蝕
+    MORPH_GRADIENT -形態學梯度 (Morphological gradient): 膨脹 - 腐蝕 => 邊緣強化
+    MORPH_TOPHAT - “頂帽” (“Top hat”): 原始 - 開運算
+    MORPH_BLACKHAT - “黑帽” (“Black hat“): 閉運算 - 原始
+kernel: 內核矩陣，cv2.getStructuringElement
+dst: 輸出圖像
+anchor: 內核的錨點=(-1,-1)表中心
+iterations: 邊界模式=cv2.BORDER_CONSTANT
+borderType: 邊界填充值=0
+
+影像旋轉
+M = cv2.getRotationMatrix2D(center, angle, 1.0)
+rotated = cv2.warpAffine(image, M, (width, height))
+
+影像翻轉
+
+
+affine_transform
+
+
+
+影像負片 negative
+
+gamma校正 gammaCorrection
+Gamma 校正是通過對每個像素的強度值進行幂次運算的方式來調整影像的對比度。
+較小的 Gamma 值 (<1) 會使影像變暗，較大的 Gamma 值 (>1) 會使影像變亮。
+
+beta校正 betaCorrection
+Beta 校正是通過對每個像素的強度值進行加法運算的方式來調整影像的亮度。
+較小的 Beta 值會使影像變暗，較大的 Beta 值會使影像變亮。
+
