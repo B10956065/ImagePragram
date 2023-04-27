@@ -5,8 +5,9 @@ from PIL import Image, ImageTk
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+import imageProgramFunction as ipf
 
-__all__ = [cv2]
+# __all__ = [cv2]
 
 # global variables
 DEFAULT_IMAGE_PATH = 'BottlenoseDolphins.png'
