@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <!--<item><id></id><text></text></item>-->
+    <!-- system ui -->
+    <item><id>mainframe_title</id><text>影像處理</text></item>
+    <item><id>mainframe_i1</id><text>資訊欄 1</text></item>
+    <item><id>mainframe_i2</id><text>資訊欄 2</text></item>
+    <item><id>mainframe_i3</id><text>資訊欄 3</text></item>
+    <item><id>mainframe_i4</id><text>資訊欄 4</text></item>
+    <item><id>mainframe_i5</id><text>資訊欄 5</text></item>
+    <item><id>mainframe_imageOri</id><text>原始圖片</text></item>
+    <item><id>mainframe_imageEdi</id><text>處理結果</text></item>
+    <item><id>i</id><text>n</text></item>
+
+    <!-- root.menubar -->
+    <item><id>menu_file</id><text> 檔 案 </text></item>
+    <item><id>menu_edit</id><text> 編 輯 </text></item>
+    <item><id>menu_filter</id><text> 濾 鏡 </text></item>
+    <item><id>menu_edge</id><text> 邊 緣 </text></item>
+
+
+    <!-- image program function name -->
+    <item l0="X軸" l1="Y軸"><id>averageBlur</id><text>均值濾波</text></item>
+    <item l0="kSize"><id>medianBlur</id><text>中值濾波</text></item>
+    <item l0="d" l1="sigma color" l2="sigma apace"><id>bilateralFilterBlur</id>雙邊濾波<text>雙邊濾波</text></item>
+    <item l0="k_h" l1="k_w" l2="sigma"><id>gaussianBlur</id><text>高斯濾波</text></item>
+    <item><id>laplacian</id><text>拉普拉斯</text></item>
+    <item><id>sobel</id><text>Sobel</text></item>
+    <item><id>canny</id><text>Canny</text></item>
+    <item><id>adaptiveThreshold</id><text>自適應二值化</text></item>
+</root>

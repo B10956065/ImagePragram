@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <!-- type="v" f="" t="" => from f to t -->
+    <!-- type="l" a="" => a==axis -->
+    <!-- type="d" => disable -->
+    <item>
+        <id>averageBlur</id>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="255"/>
+        <scale type="d" />
+        <scale type="d" />
+    </item>
+    <item>
+        <id>medianBlur</id>
+        <scale type="v" f="1" t="255"/>
+        <scale type="d" />
+        <scale type="d" />
+        <scale type="d" />
+    </item>
+    <item>
+        <id>bilateralFilterBlur</id>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="255"/>
+        <scale type="d" />
+    </item>
+    <item>
+        <id>gaussianBlur</id>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="255"/>
+        <scale type="d" f="1" t="255"/>
+    </item>
+</root>
