@@ -4,16 +4,15 @@ from tkinter.filedialog import asksaveasfilename, askopenfilename
 import xml.etree.ElementTree as ET
 
 from PIL import Image, ImageTk
-# import matplotlib.pyplot as plt
-from matplotlib.pyplot import imread, imshow, show
-import numpy as np
+from matplotlib.pyplot import imread
+import numpy as np  # TODO: numpy should not be used much, streamlined it.
 import cv2
 
 import myImageProgramFunction as mpf
 
 # global variables
 DEFAULT_IMAGE_PATH = 'BottlenoseDolphins.png'
-flag_program_type = ''
+flag_program_type = 'medianBlur'
 COUNT_SCALE = 4
 list_scale_value = list()
 list_scale_control = list()
@@ -42,11 +41,11 @@ def menuAdd(parent, content, type_=0):
 
 
 def update_image(newImage, frame="edited"):
-    newImage = ImageTk.PhotoImage(Image.fromarray((newImage * 255).astype(np.uint8)))
+    newImage = ImageTk.PhotoImage(Image.fromarray(newImage))
     if frame == "edited":
         imageFrame_edited.config(image=newImage)
         imageFrame_edited.image = newImage
-    else:
+    else:  # frame == "original"
         imageFrame_ori.config(image=newImage)
         imageFrame_ori.image = newImage
 
@@ -56,30 +55,79 @@ def image_program(llist):
     func = getattr(mpf, flag_program_type)
     result = func(image(), llist)
     update_image(result)
+    return result
+
+
+def callback_menu_file_save():
+    filetypes = [('Image', '*.png')]
+    filename = asksaveasfilename(filetypes=filetypes, defaultextension=".png")
+    if filename:
+        photo = callback_scale(None)
+        Image.fromarray(photo).save(fp=filename)
+    else:
+        print("SaveError: User Cancel")
+
+
+def callback_menu_file_load():
+    opened_image = imread(askopenfilename())
+    image.reload(opened_image)
+    # TODO: auto resize if new image is too large
 
 
 class theImage:
     def __init__(self):
-        self.original = (255-(imread(DEFAULT_IMAGE_PATH)*255)).astype(np.uint8)
+        self.original = ((imread(DEFAULT_IMAGE_PATH)) * 255).astype(np.uint8)
         self.image = self.original.copy()
 
     def __call__(self, *args, **kwargs):
         return self.image
 
+    def reload(self, newImage):
+        """Update the original image and convent to uint8.
+
+        Args:
+            newImage: the new image will replace old original-image
+
+        Warnings:
+            User should not invoke this function manual.
+        """
+        self.original = (newImage * 255).astype(np.uint8)
+        update_image(self.original, frame='original')
+        self.image = self.original.copy()
+        callback_scale()
+
     def resize(self, newX, newY):
-        # new = IntegerInputDialog(parent=mainframe, number=2, content=["new width", "new height"], title="resize")
-        # if new.llist is not None and new.flag_submit:
-        #     newX = new.llist[0].get()
-        #     newY = new.llist[1].get()
-        # else:  # incorrect submit
-        #     print("Error: You didn't input any value")
-        #     return -99
+        """Resize the image, this will not affect original-image
+
+        Args:
+            newX: new X coordinate
+            newY: new Y coordinate
+        """
         self.image = cv2.resize(self.image, (newX, newY))
         update_image(self.image)
+        # TODO: update information-label-2 :original-size & edit original-size
+
+    def reset(self):
+        """Reset edited-image to original-image"""
+        self.image = self.original.copy()
+
+    def cover(self):
+        self.image = callback_scale()
 
 
 class IntegerInputDialog(Toplevel):
     def __init__(self, parent, number: int, content=None, title: str = "Input Dialog"):
+        """
+
+        Args:
+            parent: ==mainframe
+            number: the number of entry to add
+            content: label text for each entry
+            title: title of dialog frame
+
+        Examples:
+             dialog = IntegerInputDialog(parent=mainframe, number=2, title='Resize', content=['newX', 'newY'])
+        """
         super().__init__(parent)
 
         self.flag_submit = False  # used to check whether the user submit in correct way
@@ -124,13 +172,39 @@ class IntegerInputDialog(Toplevel):
         self.destroy()
 
 
-def callback_scale(_):
+def callback_cover():
+    image.cover()
+
+
+def callback_resize():
+    dialog = IntegerInputDialog(parent=mainframe, number=2, title='Resize',
+                                content=['newX', 'newY'])
+    root.wait_window(dialog)
+
+    if dialog.llist is not None and dialog.flag_submit:
+        print("Input Value:")
+        for i in range(dialog.number):
+            print(f"  {dialog.content[i]} => {dialog.llist[i].get()}")
+        image.resize(dialog.llist[0].get(), dialog.llist[1].get())
+    else:
+        print("You don't input any value")
+
+
+def callback_reset(resize=False):
+    image.reset()
+    if resize:
+        callback_resize()
+    callback_scale()
+
+
+def callback_scale(_=None):
     llist = list()
     for i in range(COUNT_SCALE):
         llist.append(int(list_scale_control[i].get()))
         list_scale_label_value[i].config(text=int(list_scale_control[i].get()))
     # print(f"scale => {llist}")
-    image_program(llist)
+    result = image_program(llist)
+    return result
 
 
 def callback_menu(program_type: str):
@@ -157,7 +231,6 @@ def callback_menu(program_type: str):
     def update():
         pass
 
-    pass
     print(f"program_type => {program_type}")
     global flag_program_type
     flag_program_type = program_type
@@ -170,7 +243,8 @@ def callback_menu(program_type: str):
         else:  # i['type'] == 'd'
             disable(c)
         c += 1
-    pass
+    callback_scale()
+    # TODO: update information-label-1: program-type
 
 
 # load xml file and program
@@ -216,16 +290,23 @@ menuAdd(menubar, type_=1, content=[[menu_file, 'menu_file'], [menu_edit, 'menu_e
                                    [menu_filter, 'menu_filter'], [menu_edge, 'menu_edge']])
 
 # menu_file
-pass
+menu_file.add_command(label=t['menu_file_open'], command=callback_menu_file_load)
+menu_file.add_command(label=t['menu_file_save'], command=callback_menu_file_save)
 
 # menu_edit
-pass
+menu_edit.add_command(label=t['image_cover'], command=callback_cover)
+menu_edit.add_command(label=t['image_resize'], command=callback_resize)
+menu_edit.add_command(label=t['image_reset'], command=lambda: callback_reset(resize=False))
+menu_edit.add_command(label=t['image_reset_resize'], command=lambda: callback_reset(resize=True))
+menuAdd(menu_edit, content=['locationSelect'])
 
 # menu_edge
-pass
+menuAdd(menu_edge, content=['laplacian', 'sobel', 'canny'])
+menuAdd(menu_edge, content=['watershedAlgorithm', 'grabCutAlgorithm'])
 
 # menu_filter
 menuAdd(menu_filter, content=['averageBlur', 'medianBlur', 'bilateralFilterBlur', 'gaussianBlur'])
+menuAdd(menu_filter, content=['adaptiveThreshold', 'globalThreshold'])
 
 # starting enable
 root.config(menu=menubar)
