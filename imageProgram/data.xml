@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
     <!-- type="v" f="" t="" => from f to t -->
-    <!-- type="l" a="" => a==axis -->
+    <!-- type="l" a="" => a==axis:1=x,2=y -->
     <!-- type="d" => disable -->
     <item>
         <id>averageBlur</id>
@@ -31,4 +31,61 @@
         <scale type="v" f="1" t="255"/>
         <scale type="d" f="1" t="255"/>
     </item>
+    <item>
+        <id>laplacian</id>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="255"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>sobel</id>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="31"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>canny</id>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="255"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>adaptiveThreshold</id>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="255"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>globalThreshold</id>
+        <scale type="v" f="0" t="255"/>
+        <scale type="v" f="0" t="255"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>watershedAlgorithm</id>
+        <scale type="v" f="1" t="100"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>grabCutAlgorithm</id>
+        <scale type="l" a="1"/>
+        <scale type="l" a="0"/>
+        <scale type="l" a="1"/>
+        <scale type="l" a="0"/>
+    </item>
+    <item>
+        <id>locationSelect</id>
+        <scale type="l" a="1"/>
+        <scale type="l" a="0"/>
+        <scale type="l" a="1"/>
+        <scale type="l" a="0"/>
+    </item>
+
 </root>

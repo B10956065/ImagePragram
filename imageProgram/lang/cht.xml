@@ -18,14 +18,29 @@
     <item><id>menu_filter</id><text> 濾 鏡 </text></item>
     <item><id>menu_edge</id><text> 邊 緣 </text></item>
 
+    <!-- root.menubar.file -->
+    <item><id>menu_file_save</id><text>存檔</text></item>
+    <item><id>menu_file_open</id><text>讀檔</text></item>
+    <item l0="x1" l1="y1" l2="x2" l3="y2"><id>locationSelect</id><text>座標選擇器</text></item>
 
-    <!-- image program function name -->
+    <!-- root.menubar.edit -->
+    <item><id>image_cover</id><text>覆蓋</text></item>
+    <item><id>image_resize</id><text>縮放</text></item>
+    <item><id>image_reset</id><text>重置</text></item>
+    <item><id>image_reset_resize</id><text>重置並縮放</text></item>
+
+    <!-- root.menubar.edge -->
+    <item l0="pValue"><id>watershedAlgorithm</id><text>分水嶺算法</text></item>
+    <item l0="x1" l1="y1" l2="x2" l3="y2"><id>grabCutAlgorithm</id><text>GC算法</text></item>
+
+    <!-- root.menubar.filter -->
     <item l0="X軸" l1="Y軸"><id>averageBlur</id><text>均值濾波</text></item>
     <item l0="kSize"><id>medianBlur</id><text>中值濾波</text></item>
     <item l0="d" l1="sigma color" l2="sigma apace"><id>bilateralFilterBlur</id>雙邊濾波<text>雙邊濾波</text></item>
     <item l0="k_h" l1="k_w" l2="sigma"><id>gaussianBlur</id><text>高斯濾波</text></item>
-    <item><id>laplacian</id><text>拉普拉斯</text></item>
-    <item><id>sobel</id><text>Sobel</text></item>
-    <item><id>canny</id><text>Canny</text></item>
-    <item><id>adaptiveThreshold</id><text>自適應二值化</text></item>
+    <item l0="l0" l1="l1" l2="l2"><id>laplacian</id><text>拉普拉斯</text></item>
+    <item l0="kSize" l1="Scale"><id>sobel</id><text>Sobel</text></item>
+    <item l0="kSize" l1="閥值1" l2="閥值2"><id>canny</id><text>Canny</text></item>
+    <item l0="gBlur" l1="bSize" l2="C"><id>adaptiveThreshold</id><text>自適應二值化</text></item>
+    <item l0="閥值" l1="最大值"><id>globalThreshold</id><text>全域二值化</text></item>
 </root>
