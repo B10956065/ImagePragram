@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
     <!--<item><id></id><text></text></item>-->
+    <item><id>i</id><text>n</text></item>
+
     <!-- system ui -->
     <item><id>mainframe_title</id><text>影像處理</text></item>
+    <item><id>mainframe_imageOri</id><text>原始圖片</text></item>
+    <item><id>mainframe_imageEdi</id><text>處理結果</text></item>
+
+    <!-- information row -->
     <item><id>mainframe_i1</id><text>資訊欄 1</text></item>
     <item><id>mainframe_i2</id><text>資訊欄 2</text></item>
     <item><id>mainframe_i3</id><text>資訊欄 3</text></item>
     <item><id>mainframe_i4</id><text>資訊欄 4</text></item>
     <item><id>mainframe_i5</id><text>資訊欄 5</text></item>
-    <item><id>mainframe_imageOri</id><text>原始圖片</text></item>
-    <item><id>mainframe_imageEdi</id><text>處理結果</text></item>
-    <item><id>i</id><text>n</text></item>
+    <item><id>mainframe_i1_type</id><text>類別</text></item>
 
     <!-- root.menubar -->
     <item><id>menu_file</id><text> 檔 案 </text></item>

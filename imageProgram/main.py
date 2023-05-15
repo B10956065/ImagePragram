@@ -96,20 +96,33 @@ class theImage:
         self.image = self.original.copy()
         callback_scale()
 
-    def resize(self, newX, newY):
+    def resize(self, newX, newY, resizeFormOriginal=False):
         """Resize the image, this will not affect original-image
 
         Args:
             newX: new X coordinate
             newY: new Y coordinate
+            resizeFormOriginal: whether resize form original-image. If Ture, the edited part will be reset.
         """
-        self.image = cv2.resize(self.image, (newX, newY))
+        if resizeFormOriginal:
+            resizeTarget = self.original
+        else:
+            resizeTarget = self
+        oldX, oldY = self.original.shape[:2]
+        if oldX * oldY < newX*newY:
+            self.image = cv2.resize(self.original, (newX, newY), interpolation=cv2.INTER_AREA)
+        else:
+            self.image = cv2.resize(self.original, (newX, newY), interpolation=cv2.INTER_CUBIC)
         update_image(self.image)
-        # TODO: update information-label-2 :original-size & edit original-size
+        # update information-label-3 :original-size & edit original-size
+        list_label_information[3].config(text=f"oriSize:{oldX}*{oldY}\nediSize:{newX}*{newY}")
 
     def reset(self):
         """Reset edited-image to original-image"""
         self.image = self.original.copy()
+        # update information-label-3 :original-size & edit original-size
+        list_label_information[3].config(text=f"oriSize:{self.original.shape[0]}*{self.original.shape[1]}\n"
+                                              f"ediSize:{self.image.shape[0]}*{self.image.shape[1]}")
 
     def cover(self):
         self.image = callback_scale()
@@ -231,9 +244,11 @@ def callback_menu(program_type: str):
     def update():
         pass
 
-    print(f"program_type => {program_type}")
     global flag_program_type
     flag_program_type = program_type
+    print(f"program_type => {program_type}")
+    list_label_information[1].config(text=f"{t['mainframe_i1_type']}:{t[flag_program_type]}")
+
     c = 0
     for i in f[program_type]:
         if i['type'] == 'v':
@@ -244,7 +259,6 @@ def callback_menu(program_type: str):
             disable(c)
         c += 1
     callback_scale()
-    # TODO: update information-label-1: program-type
 
 
 # load xml file and program
@@ -273,11 +287,17 @@ root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
 # add some label for show information
-ttk.Label(mainframe, text=t['mainframe_i1']).grid(row=0, column=0)
-ttk.Label(mainframe, text=t['mainframe_i2']).grid(row=0, column=1)
-ttk.Label(mainframe, text=t['mainframe_i3']).grid(row=0, column=2)
-ttk.Label(mainframe, text=t['mainframe_i4']).grid(row=0, column=3)
-ttk.Label(mainframe, text=t['mainframe_i5']).grid(row=0, column=4)
+list_label_information = list()
+for i in range(0, 4+1):
+    list_label_information.append(ttk.Label(mainframe, text=t[f'mainframe_i{i+1}']))
+    list_label_information[i].grid(row=0, column=i)
+"""row_1 information label:
+    0: None. (too narrow)
+    1: program-type
+    2: None. (too narrow)
+    3: image-size
+    4: ???
+"""
 
 # add some menu for select function
 root.option_add('*tearOff', False)
