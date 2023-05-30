@@ -21,6 +21,8 @@
     <item><id>menu_edit</id><text> 編 輯 </text></item>
     <item><id>menu_filter</id><text> 濾 鏡 </text></item>
     <item><id>menu_edge</id><text> 邊 緣 </text></item>
+    <item><id>menu_color</id><text> 色 彩 </text></item>
+    <item><id>menu_special_effect</id><text> 特 效 </text></item>
 
     <!-- root.menubar.file -->
     <item><id>menu_file_save</id><text>存檔</text></item>
@@ -47,4 +49,28 @@
     <item l0="kSize" l1="閥值1" l2="閥值2"><id>canny</id><text>Canny</text></item>
     <item l0="gBlur" l1="bSize" l2="C"><id>adaptiveThreshold</id><text>自適應二值化</text></item>
     <item l0="閥值" l1="最大值"><id>globalThreshold</id><text>全域二值化</text></item>
+
+    <!-- root.menubar.color -->
+    <item l0="channel"><id>RGB_model</id><text> RGB模型 </text></item>
+    <item l0="channel"><id>CMY_model</id><text> CMY模型 </text></item>
+    <item l0="channel"><id>HSI_model</id><text> HSI模型 </text></item>
+    <item l0="channel"><id>HSV_model</id><text> HSV模型 </text></item>
+    <item l0="channel"><id>YCrCb_model</id><text> YCrCb模型 </text></item>
+    <item><id>RGB_histogram_equalization</id><text> RGB直方圖等化 </text></item>
+    <item><id>HSV_histogram_equalization</id><text> HSV直方圖等化 </text></item>
+
+
+    <!-- root.menubar.special_effect -->
+    <item l0="delta_r" l1="delta_theta"><id>radial_pixelation</id><text> 放射狀像素化 </text></item>
+    <item l0="method" l1="amplitude" l2="period"><id>ripple_effect</id><text> 漣漪特效 </text></item>
+    <item><id>fisheye_effect</id><text> 魚眼特效 </text></item>
+    <item l0="K"><id>twirl_effect</id><text> 捻轉特效 </text></item>
+    <item l0="W"><id>fuzzy_effect</id><text> 模糊特效 </text></item>
+    <item l0="length" l1="angle"><id>motion_blur</id><text> 運動模糊 </text></item>
+    <item l0="filter_size"><id>radial_blur</id><text> 放射狀模糊 </text></item>
+    <item l0="flags" l1="sigma_s" l2="sigma_r"><id>edge_preserving_filter</id><text> 邊緣保留濾波器 </text></item>
+    <item l0="sigma_s" l1="sigma_r"><id>detail_enhancement</id><text> 細節增強 </text></item>
+    <item l0="sigma_s" l1="sigma_r" l2="shade_factor"><id>pencil_sketch</id><text> 鉛筆素描 </text></item>
+    <item l0="sigma_r" l1="sigma_s"><id>stylization</id><text> 風格化 </text></item>
+
 </root>

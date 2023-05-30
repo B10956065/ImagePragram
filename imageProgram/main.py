@@ -306,8 +306,15 @@ menu_file = Menu(menubar)
 menu_edit = Menu(menubar)
 menu_edge = Menu(menubar)
 menu_filter = Menu(menubar)
+menu_color = Menu(menubar)
+menu_special_effect = Menu(menubar)
 menuAdd(menubar, type_=1, content=[[menu_file, 'menu_file'], [menu_edit, 'menu_edit'],
-                                   [menu_filter, 'menu_filter'], [menu_edge, 'menu_edge']])
+                                   [menu_filter, 'menu_filter'], [menu_edge, 'menu_edge'],
+                                   [menu_color, 'menu_color'], [menu_special_effect, 'menu_special_effect']])
+
+ripple_effect = lambda: print("Ripple Effect")
+fisheye_effect = lambda: print("Fisheye Effect")
+twirl_effect = lambda: print("Twirl Effect")
 
 # menu_file
 menu_file.add_command(label=t['menu_file_open'], command=callback_menu_file_load)
@@ -327,6 +334,15 @@ menuAdd(menu_edge, content=['watershedAlgorithm', 'grabCutAlgorithm'])
 # menu_filter
 menuAdd(menu_filter, content=['averageBlur', 'medianBlur', 'bilateralFilterBlur', 'gaussianBlur'])
 menuAdd(menu_filter, content=['adaptiveThreshold', 'globalThreshold'])
+
+# menu_color
+menuAdd(menu_color, content=['RGB_model', 'CMY_model', 'HSI_model', 'HSV_model', 'YCrCb_model',
+                             'RGB_histogram_equalization', 'HSV_histogram_equalization'])
+
+# menu_special_effect
+menuAdd(menu_special_effect, content=['radial_pixelation', 'ripple_effect', 'fisheye_effect', 'twirl_effect',
+                                      'fuzzy_effect', 'motion_blur', 'radial_blur',
+                                      'edge_preserving_filter', 'detail_enhancement', 'pencil_sketch', 'stylization'])
 
 # starting enable
 root.config(menu=menubar)

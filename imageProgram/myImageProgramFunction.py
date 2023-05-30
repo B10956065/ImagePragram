@@ -44,8 +44,9 @@ def gaussianBlur(original_image, llist):
 
 
 def laplacian(original, llist):
-    # TODO: laplacian
-    return original
+    temp = cv2.Laplacian(original, cv2.CV_32F) + 128
+    result = np.uint8(np.clip(temp, 0 ,255))
+    return result
 
 
 def sobel(original, llist):
@@ -149,4 +150,249 @@ def locationSelect(original, llist):
             llist[i] = i
     result = original.copy()
     result = cv2.rectangle(result, (llist[0], llist[1]), (llist[2], llist[3]), (255, 0, 0), 1)
+    return result
+
+
+def RGB_model(original, llist):
+    channel = llist[0]
+    # Red
+    if channel == 1:
+        return original[:, :, 0]
+    # Green
+    elif channel == 2:
+        return original[:, :, 1]
+    # Blue
+    elif channel == 3:
+        return original[:, :, 2]
+
+
+def CMY_model(original, llist):
+    channel = llist[0]
+    # Cyan
+    if channel == 1:
+        return 255 - original[:, :, 0]
+    # Magenta
+    elif channel == 2:
+        return 255 - original[:, :, 1]
+    # Yellow
+    elif channel == 3:
+        return 255 - original[:, :, 2]
+
+
+def HSI_model(original, llist):
+    pass
+
+
+def HSV_model(original, llist):
+    channel = llist[0]
+    hsv = cv2.cvtColor(original, cv2.COLOR_RGB2HSV)
+    # Hue
+    if channel == 1:
+        return hsv[:, :, 0]
+    # Saturation
+    elif channel == 2:
+        return hsv[:, :, 1]
+    # Value
+    elif channel == 3:
+        return hsv[:, :, 2]
+
+
+def RGB_histogram_equalization(original, llist):
+    result = original.copy()
+    for k in range(3):
+        result[:, :, k] = cv2.equalizeHist(original[:, :, k])
+    return result
+
+
+def HSV_histogram_equalization(original, llist):
+    hsv = cv2.cvtColor(original, cv2.COLOR_RGB2HSV)
+    hsv[:, :, 2] = cv2.equalizeHist(hsv[:, :, 2])
+    result = cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
+    return result
+
+
+def ripple_effect(original, llist):
+    method = llist[0]
+    amplitude = llist[1]
+    period = llist[2]
+
+    nr, nc = original.shape[:2]
+    map_x = np.zeros([nr, nc], dtype='float32')
+    map_y = np.zeros([nr, nc], dtype='float32')
+    x0, y0 = nr // 2, nc // 2
+    for x in range(nr):
+        for y in range(nc):
+            # x-direction
+            if method == 1:
+                xx = np.clip(x + amplitude * np.sin(x / period), 0, nr - 1)
+                map_x[x, y] = y
+                map_y[x, y] = xx
+            # y-direction
+            elif method == 2:
+                yy = np.clip(y + amplitude * np.sin(y / period), 0, nc - 1)
+                map_x[x, y] = yy
+                map_y[x, y] = x
+            # x & y direction
+            elif method == 3:
+                xx = np.clip(x + amplitude * np.sin(x / period), 0, nr - 1)
+                yy = np.clip(y + amplitude * np.sin(y / period), 0, nc - 1)
+                map_x[x, y] = yy
+                map_y[x, y] = xx
+            # Radial
+            elif method == 4:
+                r = np.sqrt((x - x0) ** 2 + (y - y0) ** 2)
+                if r == 0:
+                    theta = 0
+                else:
+                    theta = np.arccos((x - x0) / r)
+                r = r + amplitude * np.sin(r / period)
+                if y - y0 < 0:
+                    theta = -theta
+                map_x[x, y] = np.clip(y0 + r * np.sin(theta), 0, nc - 1)
+                map_y[x, y] = np.clip(x0 + r * np.cos(theta), 0, nr - 1)
+    result = cv2.remap(original, map_x, map_y, cv2.INTER_LINEAR)
+    return result
+
+
+def fisheye_effect(original, llist):
+    pass
+
+
+def radial_pixelation(original, llist):
+    delta_r = llist[0]
+    delta_theta = llist[1]
+    nr, nc = original.shape[:2]
+    map_x = np.zeros([nr, nc], dtype='float32')
+    map_y = np.zeros([nr, nc], dtype='float32')
+    x0, y0 = nr // 2, nc // 2
+    for x in range(nr):
+        for y in range(nc):
+            r = np.sqrt((x - x0) ** 2 + (y - y0) ** 2)
+            if r == 0:
+                theta = 0
+            else:
+                theta = np.arccos((x - x0) / r)
+            r = r - r % delta_r
+            if y - y0 < 0:
+                theta = -theta
+            theta = theta - theta % (np.radians(delta_theta))
+            map_x[x, y] = np.clip(y0 + r * np.sin(theta), 0, nc - 1)
+            map_y[x, y] = np.clip(x0 + r * np.cos(theta), 0, nr - 1)
+    result = cv2.remap(original, map_x, map_y, cv2.INTER_LINEAR)
+    return result
+
+
+def twirl_effect(original, llist):
+    k = llist[0]
+    nr, nc = original.shape[:2]
+    map_x = np.zeros([nr, nc], dtype='float32')
+    map_y = np.zeros([nr, nc], dtype='float32')
+    x0, y0 = nr // 2, nc // 2
+    for x in range(nr):
+        for y in range(nc):
+            r = np.sqrt((x - x0) ** 2 + (y - y0) ** 2)
+            if r == 0:
+                theta = 0
+            else:
+                theta = np.arccos((x - x0) / r)
+            if y - y0 < 0:
+                theta = -theta
+            phi = theta + r / k
+            map_x[x, y] = np.clip(y0 + r * np.sin(phi), 0, nc - 1)
+            map_y[x, y] = np.clip(x0 + r * np.cos(phi), 0, nr - 1)
+    result = cv2.remap(original, map_x, map_y, cv2.INTER_LINEAR)
+    return result
+
+
+def fuzzy_effect(original, llist):
+    from numpy.random import uniform
+    windowSize = llist[0]
+    result = original.copy()
+    nr, nc = original.shape[:2]
+    for x in range(nr):
+        for y in range(nc):
+            xp = int(x + windowSize * uniform() - windowSize // 2)
+            yp = int(y + windowSize * uniform() - windowSize // 2)
+            xp = np.clip(xp, 0, nr - 1)
+            yp = np.clip(yp, 0, nc - 1)
+            result[x, y] = original[xp, yp]
+    return result
+
+
+def motion_blur(original, llist):
+    length = llist[0]
+    angle = llist[1]
+    filter = np.zeros([length, length])
+    x0, y0 = length // 2, length // 2
+    x_len = round(x0 * np.cos(np.radians(angle)))
+    y_len = round(y0 * np.sin(np.radians(angle)))
+    x1, y1 = int(x0 - x_len), int(y0 - y_len)
+    x2, y2 = int(x0 + x_len), int(y0 + y_len)
+    cv2.line(filter, (y1, x1), (y2, x2), (1, 1, 1))
+    filter /= np.sum(filter)
+    result = cv2.filter2D(original, -1, filter)
+    return result
+
+
+def radial_blur(original, llist):
+    filter_size = llist[0]
+    result = original.copy()
+    nr, nc = original.shape[:2]
+    x0, y0 = nr // 2, nc // 2
+    half = filter_size // 2
+    for x in range(nr):
+        for y in range(nc):
+            r = np.sqrt((x - x0) ** 2 + (y - y0) ** 2)
+            if r == 0:
+                theta = 0
+            else:
+                theta = np.arccos((x - x0) / r)
+            if y - y0 < 0:
+                theta = -theta
+            R = G = B = n = 0
+            for k in range(-half, half + 1):
+                phi = theta + np.radians(k)
+                xp = int(round(x0 + r * np.cos(phi)))
+                yp = int(round(y0 + r * np.sin(phi)))
+                if 0 <= xp < nr and 0 <= yp < nc:
+                    R += original[xp, yp, 2]
+                    G += original[xp, yp, 1]
+                    B += original[xp, yp, 0]
+                    n += 1
+            R = round(R / n)
+            G = round(G / n)
+            B = round(B / n)
+            result[x, y, 2] = np.uint8(R)
+            result[x, y, 1] = np.uint8(G)
+            result[x, y, 0] = np.uint8(B)
+    return result
+
+
+def edge_preserving_filter(original, llist):
+    flags = llist[0]
+    sigma_s = llist[1]
+    sigma_r = llist[2] / 100
+    result = cv2.edgePreservingFilter(original, flags=flags, sigma_s=sigma_s, sigma_r=sigma_r)
+    return result
+
+
+def detail_enhancement(original, llist):
+    sigma_s = llist[0]
+    sigma_r = llist[1] / 100
+    result = cv2.detailEnhance(original, sigma_s=sigma_s, sigma_r=sigma_r)
+    return result
+
+
+def pencil_sketch(original, llist):
+    sigma_s = llist[0]
+    sigma_r = llist[1] / 100
+    shade_factor = llist[2] / 100
+    result_pencil, result_color = cv2.pencilSketch(original, sigma_s=sigma_s, sigma_r=sigma_r, shade_factor=shade_factor)
+    return result_pencil
+
+
+def stylization(original, llist):
+    sigma_r = llist[0]
+    sigma_s = llist[1] / 100
+    result = cv2.stylization(original, sigma_r=sigma_r, sigma_s=sigma_s)
     return result
