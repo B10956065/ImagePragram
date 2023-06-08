@@ -10,7 +10,7 @@ import imageProgramFunction as ipf
 # __all__ = [cv2]
 
 # global variables
-DEFAULT_IMAGE_PATH = 'BottlenoseDolphins.png'
+DEFAULT_IMAGE_PATH = '../BottlenoseDolphins.png'
 flag_program_type = 'fisheye'
 flag_continuous_cover = False
 

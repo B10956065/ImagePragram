@@ -1,0 +1,55 @@
+import kivy
+from kivy.app import App
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.slider import Slider
+from kivy.uix.label import Label
+from kivy.properties import NumericProperty
+
+kivy.require("2.1.0")
+
+
+class Main(GridLayout):
+    def __init__(self, **kwargs):
+        super(Main, self).__init__(**kwargs)
+
+        # 4 columns in grid layout
+        self.cols = 4
+
+        # declaring the slider and adding some effects to it
+        self.slider_1_control = Slider(min=0, max=100)
+
+        # 1st row: one label, one slider
+        self.add_widget(Label(text="slider_1"))
+        self.add_widget(self.slider_1_control)
+
+        # 2nd row: one label for caption, one label for slider value
+        self.add_widget(Label(text="Slider 1 Value"))
+        self.label_slider_1_value = Label(text='0')  # label for slider value
+        self.add_widget(self.label_slider_1_value)
+
+        # On the slider object Attach a callback, for the attribute named value
+        self.slider_1_control.bind(value=self.slider_1_on_value)
+
+        self.slider_2_control = Slider(min=0, max=100)
+        self.add_widget(Label(text="slider_2"))
+        self.add_widget(self.slider_2_control)
+        self.add_widget(Label(text="Slider 2 Value"))
+        self.label_slider_2_value = Label(text='0')  # label for slider value
+        self.add_widget(self.label_slider_2_value)
+        self.slider_2_control.bind(value=self.slider_2_on_value)
+
+    def slider_1_on_value(self, instance, brightness):
+        self.label_slider_1_value.text = "% d" % brightness
+
+    def slider_2_on_value(self, instance, brightness):
+        self.label_slider_2_value.text = "% d" % brightness
+
+
+class MyApp(App):
+    def build(self):
+        widget_container = Main()
+        return widget_container
+
+
+if __name__ == "__main__":
+    MyApp().run()

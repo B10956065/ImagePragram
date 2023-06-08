@@ -1,0 +1,360 @@
+from tkinter import *
+from tkinter import ttk
+from tkinter.filedialog import asksaveasfilename, askopenfilename
+from PIL import Image, ImageTk
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+
+__all__ = [cv2]
+
+# global variables
+DEFAULT_IMAGE_PATH = 'BottlenoseDolphins.png'
+flag_program_type = 'fisheye'
+
+
+def convex(src_image, effect) -> np.ndarray:
+    """Realize fisheye effect with convex len effect.
+
+    Args:
+        src_image: the image will to be affect
+        effect: parameter of the effect[x: int, y:int , radius: int]
+    """
+    row, col, channel = src_image.shape
+    col = int(col)
+    row = int(row)
+    cx, cy, r = effect[:]
+    output = np.zeros([row, col, channel], dtype=np.uint8)
+    for y in range(row):
+        for x in range(col):
+            d = ((x - cx) * (x - cx) + (y - cy) * (y - cy)) ** 0.5
+            if d <= r:
+                nx = int((x - cx) * d / r + cx)
+                ny = int((y - cy) * d / r + cy)
+                output[y, x, :] = src_image[ny, nx, :]
+            else:
+                output[y, x, :] = src_image[y, x, :]
+    return output
+
+
+def averageBlur(original_image, k_height, k_width):
+    """
+
+    Args:
+        original_image:
+        k_height:
+        k_width:
+    """
+    result = cv2.blur(original_image, (k_height, k_width))
+    return result
+
+
+def medianBlur(original_image, k_size):
+    if k_size < 1:
+        print(f"k_size [{k_size} less than 1]")
+        return original_image
+    result = cv2.medianBlur(original_image, k_size)
+    return result
+
+
+def bilateralFilterBlur(original_image, sigma_color, sigma_space, d_radius: int = 5):
+    result = cv2.bilateralFilter(original_image, d_radius, sigma_color, sigma_space)
+    return result
+
+
+def gaussianBlur(original_image, effect):
+    """effect[kSize_height: int, kSize_width: int, sigmaX: int]"""
+    result = cv2.GaussianBlur(original_image, (effect[0], effect[1]), effect[2])
+    return result
+
+
+def image_program(llist):
+    def update_image(image_new):
+        image_waiting = Image.fromarray(image_new)
+        image_waiting = ImageTk.PhotoImage(image=image_waiting)
+        label_image.configure(image=image_waiting)
+        label_image.image = image_waiting
+        return image_new
+
+    match flag_program_type:
+        case 'fisheye':
+            for i in range(len(llist)):
+                if llist[i] < 1:
+                    llist[i] = 1
+            return update_image(convex(image.image, tuple(llist)))
+        case 'gaussianBlur':
+            for i in range(len(llist)):
+                if llist[i] < 1:
+                    llist[i] = 1
+                if i <= 2 and llist[i] % 2 == 0:
+                    llist[i] += 1
+            return update_image(gaussianBlur(image.image, llist))
+        case 'averageBlur':
+            for i in range(len(llist)):
+                if llist[i] < 1:
+                    llist[i] = 1
+            return update_image(averageBlur(image.image, llist[0], llist[1]))
+        case 'medianBlur':
+            if llist[0] < 1:
+                llist[0] = 1
+            if llist[0] % 2 == 0:
+                llist[0] += 1
+            return update_image(medianBlur(image.image, llist[0]))
+        case 'bilateralFilterBlur':
+            for i in range(len(llist)):
+                if llist[i] < 1:
+                    llist[i] = 1
+            return update_image(bilateralFilterBlur(image.image, llist[0], llist[1]))
+
+
+def callback_scale(_):
+    scale_1_value.set(int(scale_1_value.get()))
+    scale_2_value.set(int(scale_2_value.get()))
+    scale_3_value.set(int(scale_3_value.get()))
+    llist = [scale_1_value.get(), scale_2_value.get(), scale_3_value.get()]
+    print(llist)
+    result = image_program(llist)
+    return result
+
+
+class ImageProgram:
+    def __init__(self, image_path):
+        self.original_image = (plt.imread(image_path) * 255).astype(np.uint8)
+        self.image = self.original_image
+        self.resize(400, 266)
+
+    def resize(self, new_x: int, new_y: int):
+        """Resize the image, original_image will not be affected.\n
+        If new size less than original size, interpolation will be cv2.INTER_AREA,
+        elif new size more the original size, interpolation will be cv2.INTER_CUBIC
+
+        Args:
+            new_x: new width
+            new_y: new height"""
+        old_y, old_x = self.original_image.shape[:2]
+        if old_x * old_y < new_x * new_y:
+            self.image = cv2.resize(self.original_image, (new_x, new_y), interpolation=cv2.INTER_AREA)
+        else:
+            self.image = cv2.resize(self.original_image, (new_x, new_y), interpolation=cv2.INTER_CUBIC)
+
+        if 'scale_1_value' in globals():
+            callback_scale(None)
+
+        # update information label
+        global label_image_size_value
+        label_image_size_value.set(f"Now size: {new_x}*{new_y}\nReal size: {old_x}*{old_y}")
+
+    def reload(self, new_image):
+        """Reload the original_image and reset image.\n
+        The original original_image will be replaced with new new_image.
+        and after this, the image will be reset to conform to new original.
+
+        Args:
+            new_image: new image
+        """
+        self.original_image = (new_image * 255).astype(np.uint8)
+        self.reset()
+        callback_scale(None)
+
+        # update information label
+        global label_image_size_value
+        label_image_size_value.set(f"Now size: {self.image.shape[0]}*{self.image.shape[1]}\nReal size: -1*-1")
+
+    def reset(self):
+        """reset image to original_image, the original_image will not be affected"""
+        self.image = self.original_image
+
+
+class IntegerInputDialog(Toplevel):
+    def __init__(self, parent, number: int, content=None, title: str = "Input Dialog"):
+        """
+        Call a dialog window to let user input value(integer only).
+        Args:
+            parent: the new window will be attached to the parent, usually is "mainframe"
+            number: how many entry need to generate
+            content: the title and default value for each entry. If number of item in "title" is less than "number",
+                    the default title will be "title_x", x means the serial number of the entry.
+                    And the default entry value will be 0.
+                    "title" is list in list. The structure must be [[title1, value1], [title2, value2], ...]
+        """
+        super().__init__(parent)
+
+        self.flag_submit = False
+        self.llist = list()
+        self.title(title)
+
+        self.number = number
+        self.content = content
+
+        if self.content is None:
+            self.content = []
+
+        for i in range(number if number <= len(self.content) else len(self.content)):
+            '''if number <= len(title), it means we have enough item to use.
+            elif number > len(title), it means not enough, the not enough part will be supplemented in next stage.'''
+            ttk.Label(self, text=self.content[i][0]).grid(row=i, column=0)
+            self.llist.append(IntVar())  # generate a variable and record
+            ttk.Entry(self, textvariable=self.llist[i]).grid(row=i, column=1)
+            self.llist[i].set(self.content[i][1])  # set default value
+
+        if number > len(self.content):
+            for i in range(len(self.content), number):
+                ttk.Label(self, text=f"title_{i}").grid(row=i, column=0)
+                self.llist.append(IntVar())  # generate a variable and record
+                ttk.Entry(self, textvariable=self.llist[i]).grid(row=i, column=1)
+                self.llist[i].set(0)  # set default value
+                self.content.append([f"title_{i}", 0])  # record auto-generate content
+
+        button_ok = ttk.Button(self, text="OK", command=self.on_ok)
+        button_ok.grid(row=number + 1, column=0)
+
+        button_cancel = ttk.Button(self, text="Cancel", command=self.on_cancel)
+        button_cancel.grid(row=number + 1, column=1)
+
+        for i in self.winfo_children():
+            i.grid_configure(padx=5, pady=5)  # add some padding for all widgets
+
+        self.transient(parent)  # bind child window and parent window, child will auto-close if parend being closed
+        self.grab_set()  # force user to process child window first
+
+    def on_ok(self):
+        self.flag_submit = True
+        self.destroy()
+
+    def on_cancel(self):
+        self.llist = None  # clear data to avoid mistake
+        self.destroy()
+
+
+def callback_menu_file_open():
+    image_path = askopenfilename()
+    opened_image = plt.imread(image_path)
+    image.reload(opened_image)
+
+
+def callback_menu_file_save():
+    files = [('Image', '*.png'),
+             ('All Files', '*.*'),
+             ('Python Files', '*.py'),
+             ('Text Document', '*.txt')]
+    filename = asksaveasfilename(filetypes=files, defaultextension=".png")
+    if filename:
+        if image.image is not None:
+            image_waiting = callback_scale(None)
+            Image.fromarray(image_waiting).save(fp=filename)
+        else:
+            print("the Image that wait for saving is not exist")
+    else:
+        print("ImageName is not exist")
+
+
+def callback_menu_file_close():
+    root.destroy()
+
+
+def callback_menu_edit_resize():
+    dialog = IntegerInputDialog(parent=mainframe, content=[["new x", 1], ["new_y", 1]], number=2, title="resize")
+    root.wait_window(dialog)
+
+    if dialog.llist is not None and dialog.flag_submit:
+        print("Input Value:")
+        for i in range(dialog.number):
+            print(f"{dialog.content[i][0]} => {dialog.llist[i].get()}")
+        image.resize(dialog.llist[0].get(), dialog.llist[1].get())
+    else:
+        print("You don't input any value.")
+
+
+def callback_menu_filter(program_type: str):
+    print(program_type)
+    global flag_program_type, label_program_type_value
+    flag_program_type = program_type
+    label_program_type_value.set("Program type : " + program_type)
+    callback_scale(None)
+
+
+# root
+root = Tk()
+root.title("guiTest_tkinter")
+root.resizable(False, False)
+
+# main frame
+mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe.grid(column=0, row=0, sticky='N, W, E, S')
+root.columnconfigure(0, weight=1)
+root.rowconfigure(0, weight=1)
+
+# variable of information label
+label_program_type_value = StringVar(value="Program type : " + flag_program_type)
+label_image_size_value = StringVar(value="")
+
+# load and initialize the image
+image = ImageProgram(DEFAULT_IMAGE_PATH)
+
+# Create a menu
+root.option_add('*tearOff', False)
+menubar = Menu(root)
+menu_file = Menu(menubar)
+menu_edit = Menu(menubar)
+menu_edge = Menu(menubar)
+menu_filter = Menu(menubar)
+menubar.add_cascade(menu=menu_file, label='File')
+menubar.add_cascade(menu=menu_edit, label='Edit')
+menubar.add_cascade(menu=menu_filter, label='Filter')
+menubar.add_cascade(menu=menu_edge, label='Edge')
+
+menu_file.add_command(label='Open', command=callback_menu_file_open)
+menu_file.add_command(label='Save', command=callback_menu_file_save)
+menu_file.add_command(label='Close', command=callback_menu_file_close)
+
+menu_edit.add_command(label="reSize", command=callback_menu_edit_resize)
+
+menu_filter.add_command(label='fisheye', command=lambda: callback_menu_filter('fisheye'))
+menu_filter.add_command(label='averageBlur', command=lambda: callback_menu_filter('averageBlur'))
+menu_filter.add_command(label='medianBlur', command=lambda: callback_menu_filter('medianBlur'))
+menu_filter.add_command(label='bilateralFilterBlur', command=lambda: callback_menu_filter('bilateralFilterBlur'))
+menu_filter.add_command(label='gaussianBlur', command=lambda: callback_menu_filter('gaussianBlur'))
+
+root.config(menu=menubar)
+
+# first label row
+ttk.Label(mainframe, text='Here is some information').grid(row=0, column=0)
+ttk.Label(mainframe, textvariable=label_program_type_value).grid(row=0, column=1)
+ttk.Label(mainframe, textvariable=label_image_size_value).grid(row=0, column=2)
+
+# scale 1
+ttk.Label(mainframe, text='X').grid(row=1, column=0)
+scale_1_value = IntVar()
+scale_1_control = ttk.Scale(mainframe, orient=HORIZONTAL, length=200, from_=1, to=400, variable=scale_1_value,
+                            command=callback_scale)
+scale_1_control.grid(row=1, column=1)
+ttk.Label(mainframe, text=0, textvariable=scale_1_value).grid(row=1, column=2)
+
+# scale 2
+ttk.Label(mainframe, text='Y').grid(row=2, column=0)
+scale_2_value = IntVar()
+scale_2_control = ttk.Scale(mainframe, orient=HORIZONTAL, length=200, from_=1, to=266, variable=scale_2_value,
+                            command=callback_scale)
+scale_2_control.grid(row=2, column=1)
+ttk.Label(mainframe, text=0, textvariable=scale_2_value).grid(row=2, column=2)
+
+# scale 3
+ttk.Label(mainframe, text='R').grid(row=3, column=0)
+scale_3_value = IntVar()
+scale_3_control = ttk.Scale(mainframe, orient=HORIZONTAL, length=200, from_=1, to=100, variable=scale_3_value,
+                            command=callback_scale)
+scale_3_control.grid(row=3, column=1)
+ttk.Label(mainframe, text=0, textvariable=scale_3_value).grid(row=3, column=2)
+
+# label of image
+ttk.Label(mainframe, text="Image").grid(row=4, column=0)
+image_pil = Image.fromarray(image.image)
+image_tk = ImageTk.PhotoImage(image=image_pil)
+label_image = ttk.Label(mainframe, image=image_tk)
+label_image.grid(row=4, column=1, columnspan=2)
+
+# way to go
+for child in mainframe.winfo_children():
+    child.grid_configure(padx=5, pady=5)
+
+root.mainloop()

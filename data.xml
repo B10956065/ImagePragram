@@ -88,6 +88,19 @@
         <scale type="l" a="0"/>
     </item>
     <item>
+        <id>harrisCornerDetection</id>
+        <scale type="v" f="1" t="32"/>
+        <scale type="v" f="1" t="31"/>
+        <scale type="v" f="1" t="100"/>
+        <scale type="v" f="1" t="50"/>
+    </item>
+    <item>
+        <id>shiTomasiCornerDetection</id>
+        <scale type="v" f="1" t="255"/>
+        <scale type="v" f="1" t="100"/>
+        <scale type="v" f="1" t="100"/>
+    </item>
+    <item>
         <id>RGB_model</id>
         <scale type="v" f="1" t="3"/> <!-- 1="Red" 2="Green" 3="Blue"-->
         <scale type="d"/>

@@ -38,6 +38,8 @@
     <!-- root.menubar.edge -->
     <item l0="pValue"><id>watershedAlgorithm</id><text>分水嶺算法</text></item>
     <item l0="x1" l1="y1" l2="x2" l3="y2"><id>grabCutAlgorithm</id><text>GC算法</text></item>
+    <item l0="block_size" l1="kSize" l2="k" l3="threshold"><id>harrisCornerDetection</id><text>harris角點偵測</text></item>
+    <item l0="max_corners" l1="quality_level" l2="min_distance"><id>shiTomasiCornerDetection</id><text>sht-Tomasi角點偵測</text></item>
 
     <!-- root.menubar.filter -->
     <item l0="X軸" l1="Y軸"><id>averageBlur</id><text>均值濾波</text></item>

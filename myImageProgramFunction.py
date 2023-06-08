@@ -45,7 +45,7 @@ def gaussianBlur(original_image, llist):
 
 def laplacian(original, llist):
     temp = cv2.Laplacian(original, cv2.CV_32F) + 128
-    result = np.uint8(np.clip(temp, 0 ,255))
+    result = np.uint8(np.clip(temp, 0, 255))
     return result
 
 
@@ -150,6 +150,34 @@ def locationSelect(original, llist):
             llist[i] = i
     result = original.copy()
     result = cv2.rectangle(result, (llist[0], llist[1]), (llist[2], llist[3]), (255, 0, 0), 1)
+    return result
+
+
+def harrisCornerDetection(original, llist):
+    # llist[0]: block_size: (1~32)
+    if llist[1] % 2 == 0:  # llist[1]: kSize: (1~31) odd, less than 31
+        llist[1] += 1
+    llist[2] /= 100  # llist[2]: k (1~50) => (0.01~0.5)
+    llist[3] /= 100  # llist[3]: threshold (1~100) => (0.01~1)
+    gray = cv2.cvtColor(original, cv2.COLOR_RGB2GRAY)
+    dst = cv2.cornerHarris(gray, llist[0], llist[1], llist[2])
+    dst = cv2.dilate(dst, None)
+
+    result = original.copy()
+    result[dst > llist[3] * dst.max()] = [255, 0, 0]
+    return result
+
+
+def shiTomasiCornerDetection(original, llist):
+    llist[1] /= 100  # quality_level: (1~100) => (0.01~1)
+    gray = cv2.cvtColor(original, cv2.COLOR_RGB2GRAY)
+    corners = cv2.goodFeaturesToTrack(gray, llist[0], llist[1], llist[2])
+    corners = np.int0(corners)
+
+    result = original.copy()
+    for corner in corners:
+        x, y = corner.ravel()
+        cv2.circle(result, (x, y), 3, (0, 0, 255), -1)
     return result
 
 
@@ -387,7 +415,8 @@ def pencil_sketch(original, llist):
     sigma_s = llist[0]
     sigma_r = llist[1] / 100
     shade_factor = llist[2] / 100
-    result_pencil, result_color = cv2.pencilSketch(original, sigma_s=sigma_s, sigma_r=sigma_r, shade_factor=shade_factor)
+    result_pencil, result_color = cv2.pencilSketch(original, sigma_s=sigma_s, sigma_r=sigma_r,
+                                                   shade_factor=shade_factor)
     return result_pencil
 
 

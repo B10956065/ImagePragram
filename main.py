@@ -328,8 +328,8 @@ menu_edit.add_command(label=t['image_reset_resize'], command=lambda: callback_re
 menuAdd(menu_edit, content=['locationSelect'])
 
 # menu_edge
-menuAdd(menu_edge, content=['laplacian', 'sobel', 'canny'])
-menuAdd(menu_edge, content=['watershedAlgorithm', 'grabCutAlgorithm'])
+menuAdd(menu_edge, content=['laplacian', 'sobel', 'canny', 'watershedAlgorithm', 'grabCutAlgorithm'])
+menuAdd(menu_edge, content=['harrisCornerDetection', 'shiTomasiCornerDetection'])
 
 # menu_filter
 menuAdd(menu_filter, content=['averageBlur', 'medianBlur', 'bilateralFilterBlur', 'gaussianBlur'])

@@ -1,0 +1,82 @@
+import cv2
+from matplotlib import pyplot as plt
+import numpy as np
+
+IMAGE = 'BottlenoseDolphins.png'
+
+
+# SIZE = (1067, 1600, 3)
+
+def plot_figures(figures, nrows: int = 1, ncols: int = 1):
+    """Plot a dictionary of figures.
+    https://stackoverflow.com/questions/11159436/multiple-figures-in-a-single-window
+
+    Parameters
+    ----------
+    figures : <title, figure> dictionary
+    ncols : number of columns of subplots wanted in the display
+    nrows : number of rows of subplots wanted in the figure
+    """
+
+    fig, axeslist = plt.subplots(nrows=nrows, ncols=ncols)
+    for ind, title in enumerate(figures):
+        axeslist.ravel()[ind].imshow(figures[title], cmap=plt.gray())
+        axeslist.ravel()[ind].set_title(title)
+        axeslist.ravel()[ind].set_axis_off()
+    plt.tight_layout()  # optional
+
+
+def convex(src_image, effect):
+    row, col, channel = src_image.shape
+    col = int(col)
+    row = int(row)
+    cx, cy, r = effect[:]
+    output = np.zeros([row, col, channel], dtype=np.uint8)
+    for y in range(row):
+        for x in range(col):
+            d = ((x - cx) * (x - cx) + (y - cy) * (y - cy)) ** 0.5
+            if d <= r:
+                nx = int((x - cx) * d / r + cx)
+                ny = int((y - cy) * d / r + cy)
+                output[y, x, :] = src_image[ny, nx, :]
+            else:
+                output[y, x, :] = src_image[y, x, :]
+    return output
+
+
+def fisheye(src_image):
+    # 定義魚眼效果的係數
+    K = np.array([[529.22, 0, 360.25], [0, 528.78, 249.76], [0, 0, 1]])
+    D = np.array([[-0.55], [0.26], [-0.10], [0.0]])
+    # 獲取圖像的大小
+    h, w = src_image.shape[:2]
+    # 計算新的相機矩陣
+    new_camera_matrix, roi = cv2.getOptimalNewCameraMatrix(K, D, (w, h), 0)
+    # 獲取魚眼映射
+    # mapx, mapy = cv2.fisheye.initUndistortRectifyMap(K, D, np.eye(3), new_camera_matrix, (w, h), cv2.CV_16SC2)
+    # 將魚眼映射應用於圖像
+    # img_undistorted = cv2.remap(src_image, mapx, mapy, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+    img_undistorted = cv2.fisheye.undistortImage(src_image, K, D, None, new_camera_matrix)
+    return img_undistorted
+
+
+# load image
+image = cv2.imread(IMAGE)
+
+# BGR image to RGB image
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# resize
+h, w, c = image.shape
+image = cv2.resize(image, (int(w / 4), int(h / 4)), interpolation=cv2.INTER_AREA)
+print(1, int(w / 4), int(h / 4))
+img_blur = cv2.GaussianBlur(image, (5, 5), 10)
+img_convex = convex(image, (int(w / 8), int(h / 8), 200))
+# img_convex = convex(image, (25, 44, 100))
+img_fisheye = fisheye(image)
+
+figures = {'Original': image, 'GaussianBlur': img_blur, 'Convex': img_convex, 'Fisheye': img_fisheye}
+plot_figures(figures, 2, 2)
+# show image
+# plt.imshow(image)
+plt.show()

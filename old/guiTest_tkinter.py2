@@ -1,0 +1,191 @@
+from tkinter import *
+from tkinter import ttk
+from tkinter.filedialog import asksaveasfile, asksaveasfilename, askopenfiles, askopenfilename
+import numpy as np
+from PIL import Image, ImageTk
+import cv2
+import matplotlib.pyplot as plt
+
+root = Tk()
+root.title("guiTest_tkinter")
+
+mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe.grid(column=0, row=0, sticky='N, W, E, S')
+root.resizable(False, False)
+root.columnconfigure(0, weight=1)
+root.rowconfigure(0, weight=1)
+
+# main frame
+ttk.Label(mainframe, text='Here is some information').grid(row=0, column=0)
+
+# global variables
+IMAGE = 'BottlenoseDolphins.png'
+flag_program_type = 'fisheye'
+wait_for_save_image = None
+
+
+def convex(src_image, effect):
+    row, col, channel = src_image.shape
+    col = int(col)
+    row = int(row)
+    cx, cy, r = effect[:]
+    output = np.zeros([row, col, channel], dtype=np.uint8)
+    for y in range(row):
+        for x in range(col):
+            d = ((x - cx) * (x - cx) + (y - cy) * (y - cy)) ** 0.5
+            if d <= r:
+                nx = int((x - cx) * d / r + cx)
+                ny = int((y - cy) * d / r + cy)
+                output[y, x, :] = src_image[ny, nx, :]
+            else:
+                output[y, x, :] = src_image[y, x, :]
+    return output
+
+
+def image_program(llist):
+    def update_image(image_new):
+        image_new = Image.fromarray(image_new)
+        global wait_for_save_image
+        wait_for_save_image = image_new
+        image_new = ImageTk.PhotoImage(image=image_new)
+        label_image.configure(image=image_new)
+        label_image.image = image_new
+
+    image_prog = image
+    if flag_program_type == 'fisheye':
+        for i in range(len(llist)):
+            if llist[i] < 1:
+                llist[i] = 1
+        image_convex = convex(image_prog, tuple(llist))
+        update_image(image_convex)
+
+    elif flag_program_type == 'gaussian':
+        for i in range(len(llist)):
+            if llist[i] < 1:
+                llist[i] = 1
+            if i <= 2 and llist[i] % 2 == 0:
+                llist[i] += 1
+        image_gaussian = cv2.GaussianBlur(image_prog, (llist[0], llist[1]), llist[2])
+        update_image(image_gaussian)
+
+
+def callback_scale(val):
+    scale_1_value.set(int(scale_1_value.get()))
+    scale_2_value.set(int(scale_2_value.get()))
+    scale_3_value.set(int(scale_3_value.get()))
+    llist = [scale_1_value.get(), scale_2_value.get(), scale_3_value.get()]
+    print(llist)
+    image_program(llist)
+
+
+def callback_menu_file_open():
+    image_path = askopenfilename()
+    image = plt.imread(image_path)
+    # print(image_path, type(image), image.shape)
+    # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image = (image * 255).astype(np.uint8)
+    return image
+
+
+def callback_menu_file_save():
+    files = [('Image', '*.jpg'),
+             ('All Files', '*.*'),
+             ('Python Files', '*.py'),
+             ('Text Document', '*.txt')]
+    # filename = asksaveasfile(filetypes=files, defaultextension=".jpg")
+    filename = asksaveasfilename(filetypes=files, defaultextension=".jpg")
+    if filename:
+        if wait_for_save_image:
+            # save file "wait_for_save_image" to disk
+            # print(type(wait_for_save_image))
+            wait_for_save_image.save(fp=filename)  # ignore this warning, it's fine. I don't know why, but it works
+        else:
+            print("Image wait for saving is not exist")
+    else:
+        print("ImageName is not exist")
+
+
+def callback_menu_file_close():
+    root.destroy()
+
+
+def callback_menu_edit_fisheye():
+    print('fisheye')
+    global flag_program_type
+    flag_program_type = 'fisheye'
+    callback_scale(None)
+
+
+def callback_menu_edit_gaussian():
+    print('gaussian')
+    global flag_program_type
+    flag_program_type = 'gaussian'
+    callback_scale(None)
+
+
+# load and initialize the image
+image = plt.imread(IMAGE)
+image = (image * 255).astype(np.uint8)
+image = cv2.resize(image, (400, 266), interpolation=cv2.INTER_AREA)
+
+# Create a menu
+root.option_add('*tearOff', False)
+menubar = Menu(root)
+menu_file = Menu(menubar)
+menu_edit = Menu(menubar)
+menubar.add_cascade(menu=menu_file, label='File')
+menubar.add_cascade(menu=menu_edit, label='Edit')
+
+menu_file.add_command(label='Open', command=callback_menu_file_open)
+menu_file.add_command(label='Save', command=callback_menu_file_save)
+menu_file.add_command(label='Close', command=callback_menu_file_close)
+
+menu_edit.add_command(label='Fisheye', command=callback_menu_edit_fisheye)
+menu_edit.add_command(label='GaussianBlur', command=callback_menu_edit_gaussian)
+
+root.config(menu=menubar)
+
+# scale 1
+ttk.Label(mainframe, text='X').grid(row=1, column=0)
+scale_1_value = IntVar()
+scale_1_control = ttk.Scale(mainframe, orient=HORIZONTAL, length=200, from_=1, to=400, variable=scale_1_value,
+                            command=callback_scale)
+scale_1_control.grid(row=1, column=1)
+ttk.Label(mainframe, text=0, textvariable=scale_1_value).grid(row=1, column=2)
+
+# scale 2
+ttk.Label(mainframe, text='Y').grid(row=2, column=0)
+scale_2_value = IntVar()
+scale_2_control = ttk.Scale(mainframe, orient=HORIZONTAL, length=200, from_=1, to=266, variable=scale_2_value,
+                            command=callback_scale)
+scale_2_control.grid(row=2, column=1)
+ttk.Label(mainframe, text=0, textvariable=scale_2_value).grid(row=2, column=2)
+
+# scale 3
+ttk.Label(mainframe, text='R').grid(row=3, column=0)
+scale_3_value = IntVar()
+scale_3_control = ttk.Scale(mainframe, orient=HORIZONTAL, length=200, from_=1, to=100, variable=scale_3_value,
+                            command=callback_scale)
+scale_3_control.grid(row=3, column=1)
+ttk.Label(mainframe, text=0, textvariable=scale_3_value).grid(row=3, column=2)
+
+# label of image
+ttk.Label(mainframe, text="Image").grid(row=4, column=0)
+image_pil = Image.fromarray(image)
+image_tk = ImageTk.PhotoImage(image=image_pil)
+label_image = ttk.Label(mainframe, image=image_tk)
+label_image.grid(row=4, column=1, columnspan=2)
+
+'''
+image_pil = Image.fromarray(image)
+image_tk = ImageTk.PhotoImage(image=image_pil)
+canvas = Canvas(mainframe, width=400, height=266)
+canvas.create_image(200, 133, image=image_tk)
+canvas.grid(row=4, column=1, columnspan=2)
+'''
+
+# way to go
+for child in mainframe.winfo_children():
+    child.grid_configure(padx=5, pady=5)
+
+root.mainloop()
