@@ -27,13 +27,14 @@
     <!-- root.menubar.file -->
     <item><id>menu_file_save</id><text>存檔</text></item>
     <item><id>menu_file_open</id><text>讀檔</text></item>
-    <item l0="x1" l1="y1" l2="x2" l3="y2"><id>locationSelect</id><text>座標選擇器</text></item>
 
     <!-- root.menubar.edit -->
     <item><id>image_cover</id><text>覆蓋</text></item>
     <item><id>image_resize</id><text>縮放</text></item>
+    <item><id>image_resize_form</id><text>從來源縮放</text></item>
     <item><id>image_reset</id><text>重置</text></item>
     <item><id>image_reset_resize</id><text>重置並縮放</text></item>
+    <item l0="x1" l1="y1" l2="x2" l3="y2"><id>locationSelect</id><text>座標選擇器</text></item>
 
     <!-- root.menubar.edge -->
     <item l0="pValue"><id>watershedAlgorithm</id><text>分水嶺算法</text></item>
@@ -65,7 +66,7 @@
     <!-- root.menubar.special_effect -->
     <item l0="delta_r" l1="delta_theta"><id>radial_pixelation</id><text> 放射狀像素化 </text></item>
     <item l0="method" l1="amplitude" l2="period"><id>ripple_effect</id><text> 漣漪特效 </text></item>
-    <item><id>fisheye_effect</id><text> 魚眼特效 </text></item>
+    <item l0="cx" l1="cy" l2="r"><id>fisheye_effect</id><text> 魚眼特效 </text></item>
     <item l0="K"><id>twirl_effect</id><text> 捻轉特效 </text></item>
     <item l0="W"><id>fuzzy_effect</id><text> 模糊特效 </text></item>
     <item l0="length" l1="angle"><id>motion_blur</id><text> 運動模糊 </text></item>

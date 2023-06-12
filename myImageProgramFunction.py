@@ -283,7 +283,21 @@ def ripple_effect(original, llist):
 
 
 def fisheye_effect(original, llist):
-    pass
+    row, col, channel = original.shape
+    col = int(col)
+    row = int(row)
+    cx, cy, r = llist[0:2+1]
+    result = np.zeros([row, col, channel], dtype=np.uint8)
+    for y in range(row):
+        for x in range(col):
+            d = ((x - cx) * (x - cx) + (y - cy) * (y - cy)) ** 0.5
+            if d <= r:
+                nx = int((x - cx) * d / r + cx)
+                ny = int((y - cy) * d / r + cy)
+                result[y, x, :] = original[ny, nx, :]
+            else:
+                result[y, x, :] = original[y, x, :]
+    return result
 
 
 def radial_pixelation(original, llist):

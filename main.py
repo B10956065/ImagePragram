@@ -4,14 +4,16 @@ from tkinter.filedialog import asksaveasfilename, askopenfilename
 import xml.etree.ElementTree as ET
 
 from PIL import Image, ImageTk
-from matplotlib.pyplot import imread
-import numpy as np  # TODO: numpy should not be used much, streamlined it.
+# from matplotlib.image import imread
+# import numpy as np  # TODO: numpy should not be used much, streamlined it.
 import cv2
 
 import myImageProgramFunction as mpf
 
 # global variables
 DEFAULT_IMAGE_PATH = 'BottlenoseDolphins.png'
+DEFAULT_IMAGE_WIDTH = 400
+iff_resize_form_original = False
 flag_program_type = 'medianBlur'
 COUNT_SCALE = 4
 list_scale_value = list()
@@ -69,14 +71,17 @@ def callback_menu_file_save():
 
 
 def callback_menu_file_load():
-    opened_image = imread(askopenfilename())
+    # opened_image = imread(askopenfilename())
+    opened_image = cv2.imread(askopenfilename())
+    opened_image = cv2.cvtColor(opened_image, cv2.COLOR_BGR2RGB)
     image.reload(opened_image)
-    # TODO: auto resize if new image is too large
 
 
 class theImage:
     def __init__(self):
-        self.original = ((imread(DEFAULT_IMAGE_PATH)) * 255).astype(np.uint8)
+        # self.original = ((imread(DEFAULT_IMAGE_PATH))*255).astype(np.uint8)
+        # load = (load*255).astype(np.uint8)
+        self.original = cv2.cvtColor(cv2.imread(DEFAULT_IMAGE_PATH), cv2.COLOR_BGR2RGB)
         self.image = self.original.copy()
 
     def __call__(self, *args, **kwargs):
@@ -91,9 +96,16 @@ class theImage:
         Warnings:
             User should not invoke this function manual.
         """
-        self.original = (newImage * 255).astype(np.uint8)
-        update_image(self.original, frame='original')
-        self.image = self.original.copy()
+        # self.original = (newImage * 255).astype(np.uint8)
+        # self.original = cv2.cvtColor(cv2.imread(DEFAULT_IMAGE_PATH), cv2.COLOR_BGR2RGB)
+        self.original = newImage  # update original image without resize
+        oldY, oldX = newImage.shape[:2]
+        if oldX > DEFAULT_IMAGE_WIDTH:
+            newX = DEFAULT_IMAGE_WIDTH
+            newY = int(oldY * (DEFAULT_IMAGE_WIDTH / oldX))
+            newImage = cv2.resize(newImage, (newX, newY))
+        update_image(newImage, frame='original')  # update original frame with resize
+        self.reset()  # update edited image to non-resize original image
         callback_scale()
 
     def resize(self, newX, newY, resizeFormOriginal=False):
@@ -107,22 +119,22 @@ class theImage:
         if resizeFormOriginal:
             resizeTarget = self.original
         else:
-            resizeTarget = self
+            resizeTarget = self.image
         oldX, oldY = self.original.shape[:2]
         if oldX * oldY < newX*newY:
-            self.image = cv2.resize(self.original, (newX, newY), interpolation=cv2.INTER_AREA)
+            self.image = cv2.resize(resizeTarget, (newX, newY), interpolation=cv2.INTER_AREA)
         else:
-            self.image = cv2.resize(self.original, (newX, newY), interpolation=cv2.INTER_CUBIC)
+            self.image = cv2.resize(resizeTarget, (newX, newY), interpolation=cv2.INTER_CUBIC)
         update_image(self.image)
         # update information-label-3 :original-size & edit original-size
         list_label_information[3].config(text=f"oriSize:{oldX}*{oldY}\nediSize:{newX}*{newY}")
 
     def reset(self):
-        """Reset edited-image to original-image"""
+        """Reset edited-image to original-image and update information-label-3(imageSize)"""
         self.image = self.original.copy()
         # update information-label-3 :original-size & edit original-size
-        list_label_information[3].config(text=f"oriSize:{self.original.shape[0]}*{self.original.shape[1]}\n"
-                                              f"ediSize:{self.image.shape[0]}*{self.image.shape[1]}")
+        list_label_information[3].config(text=f"oriSize:{self.original.shape[1]}*{self.original.shape[0]}\n"
+                                              f"ediSize:{self.image.shape[1]}*{self.image.shape[0]}")
 
     def cover(self):
         self.image = callback_scale()
@@ -201,6 +213,13 @@ def callback_resize():
         image.resize(dialog.llist[0].get(), dialog.llist[1].get())
     else:
         print("You don't input any value")
+
+
+def callback_resize_form():
+    global iff_resize_form_original
+    iff_resize_form_original = not iff_resize_form_original
+    menu_edit.entryconfig(1, label=f"{t['image_resize_form']}: {iff_resize_form_original}")
+    print(f"iff_resize_form_original => {iff_resize_form_original}")
 
 
 def callback_reset(resize=False):
@@ -322,6 +341,7 @@ menu_file.add_command(label=t['menu_file_save'], command=callback_menu_file_save
 
 # menu_edit
 menu_edit.add_command(label=t['image_cover'], command=callback_cover)
+menu_edit.add_command(label=f"{t['image_resize_form']}: {iff_resize_form_original}", command=callback_resize_form)
 menu_edit.add_command(label=t['image_resize'], command=callback_resize)
 menu_edit.add_command(label=t['image_reset'], command=lambda: callback_reset(resize=False))
 menu_edit.add_command(label=t['image_reset_resize'], command=lambda: callback_reset(resize=True))

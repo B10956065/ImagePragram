@@ -99,6 +99,7 @@
         <scale type="v" f="1" t="255"/>
         <scale type="v" f="1" t="100"/>
         <scale type="v" f="1" t="100"/>
+        <scale type="d"/>
     </item>
     <item>
         <id>RGB_model</id>
@@ -158,9 +159,9 @@
     </item>
     <item>
         <id>fisheye_effect</id>
-        <scale type="d"/>
-        <scale type="d"/>
-        <scale type="d"/>
+        <scale type="l" a="1"/>
+        <scale type="l" a="0"/>
+        <scale type="v" f="1" t="255"/>
         <scale type="d"/>
     </item>
     <item>
