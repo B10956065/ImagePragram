@@ -181,6 +181,29 @@ def shiTomasiCornerDetection(original, llist):
     return result
 
 
+def keypointDetection_SIFT(original, llist):
+    gray = cv2.cvtColor(original, cv2.COLOR_RGB2GRAY)
+    sift = cv2.SIFT_create()
+    keypoint = sift.detect(gray, None)
+    result = cv2.drawKeypoints(original, keypoint, None,  flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    return result
+
+
+def keypointDetection_SURF(original, llist):
+    print("SURF model is under patent protection, will be replaced by SIFT")
+    result = keypointDetection_SIFT(original, llist)
+    return result
+
+
+def keypointDetection_ORB(original, llist):
+    gray = cv2.cvtColor(original, cv2.COLOR_RGB2GRAY)
+    orb = cv2.ORB_create()
+    keypoint = orb.detect(gray, None)
+    keypoint = sorted(keypoint, key=lambda x: -x.response)[:llist[0]]  # 根據response進行排序
+    result = cv2.drawKeypoints(original, keypoint, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    return result
+
+
 def RGB_model(original, llist):
     channel = llist[0]
     # Red

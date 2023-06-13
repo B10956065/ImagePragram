@@ -102,6 +102,27 @@
         <scale type="d"/>
     </item>
     <item>
+        <id>keypointDetection_SIFT</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>keypointDetection_SURF</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>keypointDetection_ORB</id>
+        <scale type="v" f="1" t="500"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
         <id>RGB_model</id>
         <scale type="v" f="1" t="3"/> <!-- 1="Red" 2="Green" 3="Blue"-->
         <scale type="d"/>

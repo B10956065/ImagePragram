@@ -350,6 +350,7 @@ menuAdd(menu_edit, content=['locationSelect'])
 # menu_edge
 menuAdd(menu_edge, content=['laplacian', 'sobel', 'canny', 'watershedAlgorithm', 'grabCutAlgorithm'])
 menuAdd(menu_edge, content=['harrisCornerDetection', 'shiTomasiCornerDetection'])
+menuAdd(menu_edge, content=['keypointDetection_SIFT', 'keypointDetection_ORB'])
 
 # menu_filter
 menuAdd(menu_filter, content=['averageBlur', 'medianBlur', 'bilateralFilterBlur', 'gaussianBlur'])
