@@ -47,7 +47,14 @@
     <item l0="max_corners" l1="quality_level" l2="min_distance"><id>shiTomasiCornerDetection</id><text>sht-Tomasi角點偵測</text></item>
     <item l0="" l1="" l2=""><id>keypointDetection_SIFT</id><text>SIFT關鍵點偵測</text></item>
     <item l0="" l1="" l2=""><id>keypointDetection_SURF</id><text>SURF關鍵點偵測</text></item>
-    <item l0="最大點數" l1="" l2=""><id>keypointDetection_ORB</id><text>ORB關鍵點偵測</text></item>
+    <item l0="最大點數"><id>keypointDetection_ORB</id><text>ORB關鍵點偵測</text></item>
+    <item l0="kSize" l1="疊代次數"><id>dilation</id><text>型態學膨脹</text></item>
+    <item l0="kSize" l1="疊代次數"><id>erosion</id><text>型態學腐蝕</text></item>
+    <item l0="kSize"><id>opening</id><text>型態學開運算</text></item>
+    <item l0="kSize"><id>closing</id><text>型態學閉運算</text></item>
+    <item l0="kSize"><id>topHat</id><text>型態學頂帽</text></item>
+    <item l0="kSize"><id>blackHat</id><text>型態學黑帽</text></item>
+    <item l0="kSize"><id>morphologicalGradient</id><text>型態學梯度</text></item>
 
     <!-- root.menubar.filter -->
     <item l0="X軸" l1="Y軸"><id>averageBlur</id><text>均值濾波</text></item>

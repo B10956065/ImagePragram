@@ -736,3 +736,45 @@ def aiRemoveBackground(original, _):
         return original
     result = rembg.remove(original)
     return result
+
+
+def dilation(original, llist):
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (llist[0], llist[0]))
+    result = cv2.dilate(original, kernel, iterations=llist[1])
+    return result
+
+
+def erosion(original, llist):
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (llist[0], llist[0]))
+    result = cv2.erode(original, kernel, iterations=llist[1])
+    return result
+
+
+def opening(original, llist):
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (llist[0], llist[0]))
+    result = cv2.morphologyEx(original, cv2.MORPH_OPEN, kernel)
+    return result
+
+
+def closing(original, llist):
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (llist[0], llist[0]))
+    result = cv2.morphologyEx(original, cv2.MORPH_CLOSE, kernel)
+    return result
+
+
+def topHat(original, llist):
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (llist[0], llist[0]))
+    result = cv2.morphologyEx(original, cv2.MORPH_TOPHAT, kernel)
+    return result
+
+
+def blackHat(original, llist):
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (llist[0], llist[0]))
+    result = cv2.morphologyEx(original, cv2.MORPH_BLACKHAT, kernel)
+    return result
+
+
+def morphologicalGradient(original, llist):
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (llist[0], llist[0]))
+    result = cv2.morphologyEx(original, cv2.MORPH_GRADIENT, kernel)
+    return result

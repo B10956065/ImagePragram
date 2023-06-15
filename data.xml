@@ -465,4 +465,53 @@
         <scale type="d"/>
         <scale type="d"/>
     </item>
+    <item>
+        <id>dilation</id>
+        <scale type="v" f="1" t="31"/>
+        <scale type="v" f="1" t="31"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>erosion</id>
+        <scale type="v" f="1" t="31"/>
+        <scale type="v" f="1" t="31"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>opening</id>
+        <scale type="v" f="1" t="31"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>closing</id>
+        <scale type="v" f="1" t="31"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>topHat</id>
+        <scale type="v" f="1" t="31"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>blackHat</id>
+        <scale type="v" f="1" t="31"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>morphologicalGradient</id>
+        <scale type="v" f="1" t="31"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
 </root>

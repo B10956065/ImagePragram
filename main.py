@@ -356,6 +356,7 @@ menuAdd(menu_edit, content=['locationSelect'])
 menuAdd(menu_edge, content=['laplacian', 'sobel', 'canny', 'watershedAlgorithm', 'grabCutAlgorithm'])
 menuAdd(menu_edge, content=['aiRemoveBackground', 'harrisCornerDetection', 'shiTomasiCornerDetection',
                             'keypointDetection_SIFT', 'keypointDetection_ORB'])
+menuAdd(menu_edge, content=['dilation', 'erosion', 'opening', 'closing', 'topHat', 'blackHat', 'morphologicalGradient'])
 
 # menu_filter
 menuAdd(menu_filter, content=['averageBlur', 'medianBlur', 'bilateralFilterBlur', 'gaussianBlur',
