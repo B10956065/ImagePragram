@@ -458,4 +458,11 @@
         <scale type="d"/>
         <scale type="d"/>
     </item>
+    <item>
+        <id>aiRemoveBackground</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
 </root>

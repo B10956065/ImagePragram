@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import rembg
 
 """Here have almost all the imageProgram-function used.
 
@@ -185,7 +186,7 @@ def keypointDetection_SIFT(original, llist):
     gray = cv2.cvtColor(original, cv2.COLOR_RGB2GRAY)
     sift = cv2.SIFT_create()
     keypoint = sift.detect(gray, None)
-    result = cv2.drawKeypoints(original, keypoint, None,  flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    result = cv2.drawKeypoints(original, keypoint, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     return result
 
 
@@ -456,7 +457,7 @@ def fisheye_effect(original, llist):
     row, col, channel = original.shape
     col = int(col)
     row = int(row)
-    cx, cy, r = llist[0:2+1]
+    cx, cy, r = llist[0:2 + 1]
     result = np.zeros([row, col, channel], dtype=np.uint8)
     for y in range(row):
         for x in range(col):
@@ -724,4 +725,14 @@ def beta_correction(original, llist):
                 for k in range(3):
                     result[x, y, k] = table[original[x, y, k]]
 
+    return result
+
+
+def aiRemoveBackground(original, _):
+    try:
+        from rembg import remove
+    except ModuleNotFoundError:
+        print("package \"rembg\" not exist. Please install")
+        return original
+    result = rembg.remove(original)
     return result

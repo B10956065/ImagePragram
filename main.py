@@ -354,18 +354,18 @@ menuAdd(menu_edit, content=['locationSelect'])
 
 # menu_edge
 menuAdd(menu_edge, content=['laplacian', 'sobel', 'canny', 'watershedAlgorithm', 'grabCutAlgorithm'])
-menuAdd(menu_edge, content=['harrisCornerDetection', 'shiTomasiCornerDetection'])
-menuAdd(menu_edge, content=['keypointDetection_SIFT', 'keypointDetection_ORB'])
+menuAdd(menu_edge, content=['aiRemoveBackground', 'harrisCornerDetection', 'shiTomasiCornerDetection',
+                            'keypointDetection_SIFT', 'keypointDetection_ORB'])
 
 # menu_filter
-menuAdd(menu_filter, content=['averageBlur', 'medianBlur', 'bilateralFilterBlur', 'gaussianBlur'])
-menuAdd(menu_filter, content=['adaptiveThreshold', 'globalThreshold'])
+menuAdd(menu_filter, content=['averageBlur', 'medianBlur', 'bilateralFilterBlur', 'gaussianBlur',
+                              'adaptiveThreshold', 'globalThreshold'])
 
 # menu_color
 menuAdd(menu_color, content=['gray_level', 'RGB_model', 'CMY_model', 'HSV_model', 'YCrCb_model',
                              'RGB_histogram_equalization', 'HSV_histogram_equalization'])
 
-# menu_pseudocolor
+# menu_pseudoColor
 menuAdd(menu_pseudocolor, content=['autumn', 'bone', 'jet', 'winter', 'rainbow', 'ocean', 'summer', 'spring', 'cool',
                                    'hsv', 'pink', 'hot', 'parula', 'magma', 'inferno', 'plasma', 'viridis', 'cividis',
                                    'twilight', 'twilight_shifted', 'turbo', 'deepgreen'])

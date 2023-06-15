@@ -42,6 +42,7 @@
     <!-- root.menubar.edge -->
     <item l0="pValue"><id>watershedAlgorithm</id><text>分水嶺算法</text></item>
     <item l0="x1" l1="y1" l2="x2" l3="y2"><id>grabCutAlgorithm</id><text>GC算法</text></item>
+    <item l0=""><id>aiRemoveBackground</id><text>AI去背</text></item>
     <item l0="block_size" l1="kSize" l2="k" l3="threshold"><id>harrisCornerDetection</id><text>harris角點偵測</text></item>
     <item l0="max_corners" l1="quality_level" l2="min_distance"><id>shiTomasiCornerDetection</id><text>sht-Tomasi角點偵測</text></item>
     <item l0="" l1="" l2=""><id>keypointDetection_SIFT</id><text>SIFT關鍵點偵測</text></item>
@@ -68,7 +69,7 @@
     <item><id>RGB_histogram_equalization</id><text> RGB直方圖等化 </text></item>
     <item><id>HSV_histogram_equalization</id><text> HSV直方圖等化 </text></item>
 
-    <!-- root.menubar.pseudocolor -->
+    <!-- root.menubar.pseudoColor -->
     <item><id>autumn</id><text> Autumn </text></item>
     <item><id>bone</id><text> Bone </text></item>
     <item><id>jet</id><text> Jet </text></item>
