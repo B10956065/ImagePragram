@@ -22,7 +22,10 @@
     <item><id>menu_filter</id><text> 濾 鏡 </text></item>
     <item><id>menu_edge</id><text> 邊 緣 </text></item>
     <item><id>menu_color</id><text> 色 彩 </text></item>
+    <item><id>menu_pseudocolor</id><text> 虛擬色彩 </text></item>
     <item><id>menu_special_effect</id><text> 特 效 </text></item>
+    <item><id>menu_noise</id><text> 雜 訊  </text></item>
+    <item><id>menu_intensity_transformation</id><text> 強度轉換  </text></item>
 
     <!-- root.menubar.file -->
     <item><id>menu_file_save</id><text>存檔</text></item>
@@ -57,14 +60,37 @@
     <item l0="閥值" l1="最大值"><id>globalThreshold</id><text>全域二值化</text></item>
 
     <!-- root.menubar.color -->
+    <item l0="channel"><id>gray_level</id><text> 灰階 </text></item>
     <item l0="channel"><id>RGB_model</id><text> RGB模型 </text></item>
     <item l0="channel"><id>CMY_model</id><text> CMY模型 </text></item>
-    <item l0="channel"><id>HSI_model</id><text> HSI模型 </text></item>
     <item l0="channel"><id>HSV_model</id><text> HSV模型 </text></item>
     <item l0="channel"><id>YCrCb_model</id><text> YCrCb模型 </text></item>
     <item><id>RGB_histogram_equalization</id><text> RGB直方圖等化 </text></item>
     <item><id>HSV_histogram_equalization</id><text> HSV直方圖等化 </text></item>
 
+    <!-- root.menubar.pseudocolor -->
+    <item><id>autumn</id><text> Autumn </text></item>
+    <item><id>bone</id><text> Bone </text></item>
+    <item><id>jet</id><text> Jet </text></item>
+    <item><id>winter</id><text> Winter </text></item>
+    <item><id>rainbow</id><text> Rainbow </text></item>
+    <item><id>ocean</id><text> Ocean </text></item>
+    <item><id>summer</id><text> Summer </text></item>
+    <item><id>spring</id><text> Spring </text></item>
+    <item><id>cool</id><text> Cool </text></item>
+    <item><id>hsv</id><text> HSV </text></item>
+    <item><id>pink</id><text> Pink </text></item>
+    <item><id>hot</id><text> Hot </text></item>
+    <item><id>parula</id><text> Parula </text></item>
+    <item><id>magma</id><text> Magma </text></item>
+    <item><id>inferno</id><text> Inferno </text></item>
+    <item><id>plasma</id><text> Plasma </text></item>
+    <item><id>viridis</id><text> Viridis </text></item>
+    <item><id>cividis</id><text> Cividis </text></item>
+    <item><id>twilight</id><text> Twilight </text></item>
+    <item><id>twilight_shifted</id><text> Twilight_Shifted </text></item>
+    <item><id>turbo</id><text> Turbo </text></item>
+    <item><id>deepgreen</id><text> DeepGreen </text></item>
 
     <!-- root.menubar.special_effect -->
     <item l0="delta_r" l1="delta_theta"><id>radial_pixelation</id><text> 放射狀像素化 </text></item>
@@ -79,4 +105,15 @@
     <item l0="sigma_s" l1="sigma_r" l2="shade_factor"><id>pencil_sketch</id><text> 鉛筆素描 </text></item>
     <item l0="sigma_r" l1="sigma_s"><id>stylization</id><text> 風格化 </text></item>
 
+    <!-- root.menubar.noise -->
+    <item l0="scale"><id>uniform_noise</id><text> 均勻雜訊 </text></item>
+    <item l0="scale"><id>gaussian_noise</id><text> 高斯雜訊 </text></item>
+    <item l0="scale"><id>exponential_noise</id><text> 指數雜訊 </text></item>
+    <item l0="scale"><id>rayleigh_noise</id><text> 瑞雷雜訊 </text></item>
+    <item l0="probability"><id>salt_pepper_noise</id><text> 椒鹽雜訊 </text></item>
+
+    <!-- root.menubar.intensity_transformation -->
+    <item><id>negative</id><text> 負片 </text></item>
+    <item l0="gamma"><id>gamma_correction</id><text> 伽瑪矯正 </text></item>
+    <item l0="a" l1="b"><id>beta_correction</id><text> Beta矯正 </text></item>
 </root>

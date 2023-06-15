@@ -326,10 +326,15 @@ menu_edit = Menu(menubar)
 menu_edge = Menu(menubar)
 menu_filter = Menu(menubar)
 menu_color = Menu(menubar)
+menu_pseudocolor = Menu(menubar)
 menu_special_effect = Menu(menubar)
+menu_noise = Menu(menubar)
+menu_intensity_transformation = Menu(menubar)
 menuAdd(menubar, type_=1, content=[[menu_file, 'menu_file'], [menu_edit, 'menu_edit'],
                                    [menu_filter, 'menu_filter'], [menu_edge, 'menu_edge'],
-                                   [menu_color, 'menu_color'], [menu_special_effect, 'menu_special_effect']])
+                                   [menu_color, 'menu_color'], [menu_pseudocolor, 'menu_pseudocolor'],
+                                   [menu_special_effect, 'menu_special_effect'], [menu_noise, 'menu_noise'],
+                                   [menu_intensity_transformation, 'menu_intensity_transformation']])
 
 ripple_effect = lambda: print("Ripple Effect")
 fisheye_effect = lambda: print("Fisheye Effect")
@@ -357,13 +362,25 @@ menuAdd(menu_filter, content=['averageBlur', 'medianBlur', 'bilateralFilterBlur'
 menuAdd(menu_filter, content=['adaptiveThreshold', 'globalThreshold'])
 
 # menu_color
-menuAdd(menu_color, content=['RGB_model', 'CMY_model', 'HSI_model', 'HSV_model', 'YCrCb_model',
+menuAdd(menu_color, content=['gray_level', 'RGB_model', 'CMY_model', 'HSV_model', 'YCrCb_model',
                              'RGB_histogram_equalization', 'HSV_histogram_equalization'])
+
+# menu_pseudocolor
+menuAdd(menu_pseudocolor, content=['autumn', 'bone', 'jet', 'winter', 'rainbow', 'ocean', 'summer', 'spring', 'cool',
+                                   'hsv', 'pink', 'hot', 'parula', 'magma', 'inferno', 'plasma', 'viridis', 'cividis',
+                                   'twilight', 'twilight_shifted', 'turbo', 'deepgreen'])
 
 # menu_special_effect
 menuAdd(menu_special_effect, content=['radial_pixelation', 'ripple_effect', 'fisheye_effect', 'twirl_effect',
                                       'fuzzy_effect', 'motion_blur', 'radial_blur',
                                       'edge_preserving_filter', 'detail_enhancement', 'pencil_sketch', 'stylization'])
+
+# menu_noise
+menuAdd(menu_noise, content=['uniform_noise', 'gaussian_noise', 'exponential_noise',
+                             'rayleigh_noise', 'salt_pepper_noise'])
+
+# menu_intensity_transformation
+menuAdd(menu_intensity_transformation, content=['negative', 'gamma_correction', 'beta_correction'])
 
 # starting enable
 root.config(menu=menubar)
@@ -383,7 +400,7 @@ for count in range(1, COUNT_SCALE + 1):
     list_scale_label_value.append(ttk.Label(mainframe, text="0"))
     list_scale_label_value[count - 1].grid(row=count, column=2)
 
-# image show
+# image show;
 ttk.Label(mainframe, text=t['mainframe_imageOri']).grid(row=1, column=3)
 ttk.Label(mainframe, text=t['mainframe_imageEdi']).grid(row=1, column=4)
 imageFrame_ori = ttk.Label(mainframe)

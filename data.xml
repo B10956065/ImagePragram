@@ -123,6 +123,13 @@
         <scale type="d"/>
     </item>
     <item>
+        <id>gray_level</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
         <id>RGB_model</id>
         <scale type="v" f="1" t="3"/> <!-- 1="Red" 2="Green" 3="Blue"-->
         <scale type="d"/>
@@ -132,13 +139,6 @@
     <item>
         <id>CMY_model</id>
         <scale type="v" f="1" t="3"/> <!-- 1="Cyan" 2="Green" 3="Blue"-->
-        <scale type="d"/>
-        <scale type="d"/>
-        <scale type="d"/>
-    </item>
-    <item>
-        <id>HSI_model</id>
-        <scale type="v" f="1" t="3"/> <!-- 1="" 2="" 3=""-->
         <scale type="d"/>
         <scale type="d"/>
         <scale type="d"/>
@@ -166,6 +166,160 @@
     </item>
     <item>
         <id>HSV_histogram_equalization</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>autumn</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>bone</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>jet</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>winter</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>rainbow</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>ocean</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>summer</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>spring</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>cool</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>hsv</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>pink</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>hot</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>parula</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>magma</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>inferno</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>plasma</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>viridis</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>cividis</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>twilight</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>twilight_shifted</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>turbo</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>deepgreen</id>
         <scale type="d"/>
         <scale type="d"/>
         <scale type="d"/>
@@ -248,5 +402,60 @@
         <scale type="d"/>
         <scale type="d"/>
     </item>
-
+    <item>
+        <id>uniform_noise</id>
+        <scale type="v" f="1" t="100"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>gaussian_noise</id>
+        <scale type="v" f="1" t="100"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>exponential_noise</id>
+        <scale type="v" f="1" t="100"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>rayleigh_noise</id>
+        <scale type="v" f="1" t="100"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>salt_pepper_noise</id>
+        <scale type="v" f="1" t="100"/> <!-- 0 ~ 1-->
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>negative</id>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>gamma_correction</id>
+        <scale type="v" f="1" t="1000"/> <!-- 0 ~ 10-->
+        <scale type="d"/>
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
+    <item>
+        <id>beta_correction</id>
+        <scale type="v" f="1" t="200"/> <!-- 0 ~ 2-->
+        <scale type="v" f="1" t="200"/> <!-- 0 ~ 2-->
+        <scale type="d"/>
+        <scale type="d"/>
+    </item>
 </root>

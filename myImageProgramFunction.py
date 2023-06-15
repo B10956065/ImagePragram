@@ -204,6 +204,11 @@ def keypointDetection_ORB(original, llist):
     return result
 
 
+def gray_level(original, llist):
+    result = cv2.cvtColor(original, cv2.COLOR_RGB2GRAY)
+    return result
+
+
 def RGB_model(original, llist):
     channel = llist[0]
     # Red
@@ -230,10 +235,6 @@ def CMY_model(original, llist):
         return 255 - original[:, :, 2]
 
 
-def HSI_model(original, llist):
-    pass
-
-
 def HSV_model(original, llist):
     channel = llist[0]
     hsv = cv2.cvtColor(original, cv2.COLOR_RGB2HSV)
@@ -248,6 +249,20 @@ def HSV_model(original, llist):
         return hsv[:, :, 2]
 
 
+def YCrCb_model(original, llist):
+    channel = llist[0]
+    ycrcb = cv2.cvtColor(original, cv2.COLOR_RGB2YCrCb)
+    # Y
+    if channel == 1:
+        return ycrcb[:, :, 0]
+    # Cr
+    elif channel == 2:
+        return ycrcb[:, :, 1]
+    # Cb
+    elif channel == 3:
+        return ycrcb[:, :, 2]
+
+
 def RGB_histogram_equalization(original, llist):
     result = original.copy()
     for k in range(3):
@@ -259,6 +274,138 @@ def HSV_histogram_equalization(original, llist):
     hsv = cv2.cvtColor(original, cv2.COLOR_RGB2HSV)
     hsv[:, :, 2] = cv2.equalizeHist(hsv[:, :, 2])
     result = cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
+    return result
+
+
+def autumn(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_AUTUMN)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def bone(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_BONE)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def jet(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_JET)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def winter(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_WINTER)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def rainbow(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_RAINBOW)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def ocean(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_OCEAN)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def summer(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_SUMMER)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def spring(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_SPRING)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def cool(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_COOL)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def hsv(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_HSV)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def pink(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_PINK)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def hot(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_HOT)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def parula(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_PARULA)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def magma(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_MAGMA)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def inferno(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_INFERNO)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def plasma(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_PLASMA)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def viridis(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_VIRIDIS)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def cividis(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_CIVIDIS)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def twilight(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_TWILIGHT)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def twilight_shifted(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_TWILIGHT_SHIFTED)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def turbo(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_TURBO)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
+    return result
+
+
+def deepgreen(original, llist):
+    colormap = cv2.applyColorMap(original, cv2.COLORMAP_DEEPGREEN)
+    result = cv2.cvtColor(colormap, cv2.COLOR_RGB2BGR)
     return result
 
 
@@ -461,4 +608,120 @@ def stylization(original, llist):
     sigma_r = llist[0]
     sigma_s = llist[1] / 100
     result = cv2.stylization(original, sigma_r=sigma_r, sigma_s=sigma_s)
+    return result
+
+
+def uniform_noise(original, llist):
+    from numpy.random import uniform
+    scale = llist[0]
+    result = original.copy()
+    nr, nc = original.shape[:2]
+    for x in range(nr):
+        for y in range(nc):
+            value = original[x, y] + uniform(0, 1) * scale
+            result[x, y] = np.uint8(np.clip(value, 0, 255))
+    return result
+
+
+def gaussian_noise(original, llist):
+    from numpy.random import uniform
+    scale = llist[0]
+    result = original.copy()
+    nr, nc = original.shape[:2]
+    for x in range(nr):
+        for y in range(nc):
+            value = original[x, y] + uniform(0, scale)
+            result[x, y] = np.uint8(np.clip(value, 0, 255))
+    return result
+
+
+def exponential_noise(original, llist):
+    from numpy.random import exponential
+    scale = llist[0]
+    result = original.copy()
+    nr, nc = original.shape[:2]
+    for x in range(nr):
+        for y in range(nc):
+            value = original[x, y] + exponential(scale)
+            result[x, y] = np.uint8(np.clip(value, 0, 255))
+    return result
+
+
+def rayleigh_noise(original, llist):
+    from numpy.random import rayleigh
+    scale = llist[0]
+    result = original.copy()
+    nr, nc = original.shape[:2]
+    for x in range(nr):
+        for y in range(nc):
+            value = original[x, y] + rayleigh(scale)
+            result[x, y] = np.uint8(np.clip(value, 0, 255))
+    return result
+
+
+def salt_pepper_noise(original, llist):
+    from numpy.random import uniform
+    probability = llist[0] / 100
+    result = original.copy()
+    nr, nc = original.shape[:2]
+    for x in range(nr):
+        for y in range(nc):
+            value = uniform(0, 1)
+            if 0 < value <= probability / 2:
+                result[x, y] = 0
+            elif probability / 2 < value <= probability:
+                result[x, y] = 255
+            else:
+                result[x, y] = original[x, y]
+    return result
+
+
+def negative(original, llist):
+    result = 255 - original
+    return result
+
+
+def gamma_correction(original, llist):
+    gamma = llist[0] / 100
+    result = original.copy()
+    nr, nc = original.shape[:2]
+    c = 255.0 / (255.0 ** gamma)
+    table = np.zeros(256)
+
+    for i in range(256):
+        table[i] = round(i ** gamma * c, 0)
+
+    if original.ndim != 3:
+        for x in range(nr):
+            for y in range(nc):
+                result[x, y] = table[original[x, y]]
+    else:
+        for x in range(nr):
+            for y in range(nc):
+                for k in range(3):
+                    result[x, y, k] = table[original[x, y, k]]
+
+    return result
+
+
+def beta_correction(original, llist):
+    import scipy.special as special
+    a = llist[0] / 100
+    b = llist[1] / 100
+    result = original.copy()
+    nr, nc = original.shape[:2]
+    x = np.linspace(0, 1, 256)
+
+    table = np.round(special.betainc(a, b, x) * 255, 0)
+
+    if original.ndim != 3:
+        for x in range(nr):
+            for y in range(nc):
+                result[x, y] = table[original[x, y]]
+    else:
+        for x in range(nr):
+            for y in range(nc):
+                for k in range(3):
+                    result[x, y, k] = table[original[x, y, k]]
+
     return result
